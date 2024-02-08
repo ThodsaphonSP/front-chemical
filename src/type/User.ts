@@ -33,9 +33,6 @@ export class UserRole {
     roleId: string = "";
     roleName: string = "";
 
-    constructor() {
-        // Additional initialization can go here
-    }
 }
 
 export class Company {

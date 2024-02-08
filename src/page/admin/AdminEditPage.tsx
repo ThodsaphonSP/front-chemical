@@ -39,8 +39,8 @@ const MenuProps = {
 
 
 export function AdminEditPage() {
-
-    const [roleLoading, setRoleLoading] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+   // const [roleLoading, setRoleLoading] = useState(false);
 
     const [roles, setRoles] = useState<Role[]>([]);
 
@@ -80,7 +80,6 @@ export function AdminEditPage() {
             target: {value},
         } = event);
 
-        const a = typeof value === 'string'
         debugger
         setRoleName(
             typeof value === 'string' ? value.split(',') : value,
@@ -105,7 +104,7 @@ export function AdminEditPage() {
 
 
     const fetchRoleData = async (name = ""): Promise<void> => {
-        setRoleLoading(true);
+       // setRoleLoading(true);
         try {
             const response = await GetRoleAPI(name);
 
@@ -118,7 +117,7 @@ export function AdminEditPage() {
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
-        setRoleLoading(false);
+       // setRoleLoading(false);
     };
 
     return (

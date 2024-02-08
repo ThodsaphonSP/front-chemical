@@ -59,7 +59,7 @@ const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
 
 
     // Render children if user is authenticated
-    return children;
+    // return children;
 };
 
 export default RequireAuth;
