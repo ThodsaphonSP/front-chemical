@@ -18,6 +18,7 @@ import pageData from "../../type/PageData.json";
 import {useDispatch} from "react-redux";
 import {Role} from "../../type/Role";
 import {GetRoleAPI} from "../../Services/RoleAPI";
+import {useNavigate, useParams} from "react-router-dom";
 
 export interface BaseContainerProps {
     children: ReactNode;
@@ -42,6 +43,8 @@ export function AdminEditPage() {
     // eslint-disable-next-line no-unused-vars
    // const [roleLoading, setRoleLoading] = useState(false);
 
+    const { id } = useParams<{ id: string }>();
+
     const [roles, setRoles] = useState<Role[]>([]);
 
     // State for user form
@@ -57,6 +60,8 @@ export function AdminEditPage() {
 
 
     const dispatch = useDispatch();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -80,7 +85,6 @@ export function AdminEditPage() {
             target: {value},
         } = event);
 
-        debugger
         setRoleName(
             typeof value === 'string' ? value.split(',') : value,
         );
@@ -110,9 +114,6 @@ export function AdminEditPage() {
 
             setRoles(response.data);
 
-            const names = response.data.map(x=>x.name);
-
-            setRoleName(names);
 
         } catch (error) {
             console.error('Failed to fetch data:', error);
@@ -187,6 +188,7 @@ export function AdminEditPage() {
                 <Grid container={true} item xs={12}>
                     <Grid xs>
                         <Button
+                            onClick={()=>navigate(-1)}
                             type="submit"
                             variant="contained"
                             sx={{
@@ -202,6 +204,8 @@ export function AdminEditPage() {
                     </Grid>
                     <Grid xs>
                         <Button
+                            disabled={id === "0"}
+
                             type="submit"
                             variant="contained"
                             sx={{
