@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "pageUrl": "/admin",
+    "allowRole": ["",""],
+    "pageTitle": "บัญชีผู้ใช้งาน Admin"
+  },
+  "adminEdit": {
+    "pageUrl": "/admin/",
+    "allowRole": ["",""],
+    "pageTitle": "เพิ่ม-แก้ไขบัญชีผู้ใช้งาน"
+  }
+}
