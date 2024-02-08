@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Adjust this to match your project's Node.js version
+          node-version: "^17.0.45" # Adjust this to match your project's Node.js version
       - name: Install Dependencies
         run: npm install
       - name: Build Production Artifacts
