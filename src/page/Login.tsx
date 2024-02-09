@@ -1,5 +1,6 @@
 
 import React, {useState} from "react";
+import LoadingButton from '@mui/lab/LoadingButton';
 import {useNavigate} from "react-router-dom";
 import {
     Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
@@ -28,20 +29,24 @@ export function Login(){
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogContent, setDialogContent] = useState({ title: '', text: '', status: '' });
 
+    const [loading,setLoading]=useState(false);
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true)
         dispatch(login(credentials))
-
             .then((result) => {
                 if (login.fulfilled.match(result)) {
                     setDialogContent({ title: 'Info', text: 'Login Successful', status: 'success' });
-                    debugger
                     setIsDialogOpen(true);
                     navigate('/'); // on login success, redirect to "/dashboard"
+
+                    setLoading(false)
                 } else if (login.rejected.match(result)) {
                     setDialogContent({ title: 'Error', text: result.payload ? result.payload.toString() : 'Login Failed', status: 'error' });
                     setIsDialogOpen(true);
+                    setLoading(false);
                 }
             });
     };
@@ -141,8 +146,12 @@ export function Login(){
                                         </FormControl>
 
                                     </Grid>
+
                                     <Grid item={true} xs={12}>
-                                        <Button fullWidth={true} variant={"contained"} type="submit">Login</Button>
+                                        <LoadingButton loading={loading} fullWidth={true} variant={"contained"} type="submit">
+                                            Login
+                                        </LoadingButton>
+
                                     </Grid>
                                 </Grid>
                             </Paper>

@@ -29,7 +29,7 @@ function GetRoleString(roles:UserRole[]):string {
     const roleNames = roles.map(role=>role.roleName);
 
     const result = roleNames.join(",");
-    debugger
+
     return result;
 }
 
@@ -79,6 +79,7 @@ export function AdminPage() {
     };
 
     function handleSearchOnclick() {
+        setPage(1)
         fetchData(page, rowsPerPage, searchText).catch(error => {
             console.error('Failed to fetch data:', error);
         });

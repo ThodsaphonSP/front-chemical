@@ -29,3 +29,19 @@ export async function GetCompanyAPI(name: string):Promise<AxiosResponse<Company[
         .get<Company[]>(`api/company?name=${name}`);
     return response;
 }
+
+export type UserRegistrationRequest = {
+    email?: string,
+    phoneNumber?: string,
+    firstName?: string,
+    lastName?: string,
+    password?: string,
+    companyId: number,
+    roleName?: string[]
+};
+
+export const registerAccount = async (data: UserRegistrationRequest) => {
+    const url = `/Account/register`;
+    const response = await api.post(url, data);
+    return response;
+};
