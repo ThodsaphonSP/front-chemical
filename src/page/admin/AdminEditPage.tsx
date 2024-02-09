@@ -17,8 +17,9 @@ import {setTitle} from "../../features/Nav/NavSlice";
 import pageData from "../../type/PageData.json";
 import {useDispatch} from "react-redux";
 import {Role} from "../../type/Role";
-import {GetRoleAPI} from "../../Services/RoleAPI";
+import {GetCompanyAPI, GetRoleAPI} from "../../Services/RoleAPI";
 import {useNavigate, useParams} from "react-router-dom";
+import {Company} from "../../type/User";
 
 export interface BaseContainerProps {
     children: ReactNode;
@@ -41,11 +42,13 @@ const MenuProps = {
 
 export function AdminEditPage() {
     // eslint-disable-next-line no-unused-vars
-   // const [roleLoading, setRoleLoading] = useState(false);
+    // const [roleLoading, setRoleLoading] = useState(false);
 
-    const { id } = useParams<{ id: string }>();
+    const {id} = useParams<{ id: string }>();
 
     const [roles, setRoles] = useState<Role[]>([]);
+
+    const [companyData,setCompanyData] = useState<Company[]>()
 
     // State for user form
     const [user, setUser] = useState({
@@ -74,10 +77,19 @@ export function AdminEditPage() {
 
 
     useEffect(() => {
-        fetchRoleData().catch(error=>{
+        fetchRoleData().catch(error => {
+            console.error('Failed to fetch data:', error);
+        })
+
+
+        fetchCompanyData().catch(error => {
             console.error('Failed to fetch data:', error);
         })
     }, []);
+
+
+
+    const [company, setCompany] = useState<string>();
 
     const handleSelectChange = (event: SelectChangeEvent<typeof roleName>) => {
         let value: string[] | string;
@@ -92,7 +104,7 @@ export function AdminEditPage() {
 
     // Handle input change
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setUser(prevState => ({
             ...prevState,
             [name]: value
@@ -108,7 +120,7 @@ export function AdminEditPage() {
 
 
     const fetchRoleData = async (name = ""): Promise<void> => {
-       // setRoleLoading(true);
+        // setRoleLoading(true);
         try {
             const response = await GetRoleAPI(name);
 
@@ -118,9 +130,27 @@ export function AdminEditPage() {
         } catch (error) {
             console.error('Failed to fetch data:', error);
         }
-       // setRoleLoading(false);
+        // setRoleLoading(false);
     };
 
+
+    const fetchCompanyData = async (name = ""): Promise<void> => {
+        // setRoleLoading(true);
+        try {
+            const response = await GetCompanyAPI(name);
+
+            setCompanyData(response.data);
+
+
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
+        // setRoleLoading(false);
+    };
+
+    const companySelectChange = (event: SelectChangeEvent) => {
+        setCompany(event.target.value as string)
+    };
     return (
         <BaseContainer>
             <Grid rowSpacing={2} container component="form" onSubmit={handleSubmit}>
@@ -164,22 +194,39 @@ export function AdminEditPage() {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <FormControl fullWidth={true} >
-                        <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+                    <FormControl fullWidth>
+                        <InputLabel id="company-label">Company</InputLabel>
                         <Select
-                            labelId="demo-multiple-checkbox-label"
-                            id="demo-multiple-checkbox"
+                            labelId="company-label"
+                            id="company"
+                            value={company}
+                            label="Company"
+                            onChange={companySelectChange}
+                        >
+                            {companyData?.map(value => {
+                            return <MenuItem key={value.companyId} value={value.companyId}>{value.companyName}</MenuItem>
+                        })}
+
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth={true}>
+                        <InputLabel id="role-label">Role</InputLabel>
+                        <Select
+                            labelId="role-label"
+                            id="role-select"
                             multiple
                             value={roleName}
                             onChange={handleSelectChange}
-                            input={<OutlinedInput label="Tag" />}
+                            input={<OutlinedInput label="Role"/>}
                             renderValue={(selected) => selected.join(', ')}
                             MenuProps={MenuProps}
                         >
                             {roles.map((role) => (
                                 <MenuItem key={role.id} value={role.name}>
-                                    <Checkbox checked={roleName.indexOf(role.name) > -1} />
-                                    <ListItemText primary={role.name} />
+                                    <Checkbox checked={roleName.indexOf(role.name) > -1}/>
+                                    <ListItemText primary={role.name}/>
                                 </MenuItem>
                             ))}
                         </Select>
@@ -188,8 +235,7 @@ export function AdminEditPage() {
                 <Grid container={true} item xs={12}>
                     <Grid xs>
                         <Button
-                            onClick={()=>navigate(-1)}
-                            type="submit"
+                            onClick={() => navigate(-1)}
                             variant="contained"
                             sx={{
                                 backgroundColor: "#1E90FF",
@@ -206,7 +252,6 @@ export function AdminEditPage() {
                         <Button
                             disabled={id === "0"}
 
-                            type="submit"
                             variant="contained"
                             sx={{
                                 backgroundColor: "#FF6347", //Change this to preferred background color
@@ -222,7 +267,6 @@ export function AdminEditPage() {
                     <Grid>
 
                         <Button
-                            type="submit"
                             variant="contained"
                             sx={{
                                 backgroundColor: "#32CD32",

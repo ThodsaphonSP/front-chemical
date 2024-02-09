@@ -17,7 +17,7 @@ import React, {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {setTitle} from "../../features/Nav/NavSlice";
 import pageData from "../../type/PageData.json"
-import {User} from "../../type/User";
+import {User, UserRole} from "../../type/User";
 import {GetName} from "./MainPage";
 import {useNavigate} from "react-router-dom";
 import {PersonAddAlt} from "@mui/icons-material";
@@ -25,6 +25,13 @@ import {GetUserAPI} from "../../Services/UserAPI";
 
 
 
+function GetRoleString(roles:UserRole[]):string {
+    const roleNames = roles.map(role=>role.roleName);
+
+    const result = roleNames.join(",");
+    debugger
+    return result;
+}
 
 export function AdminPage() {
     const dispatch = useDispatch();
@@ -199,7 +206,7 @@ export function AdminPage() {
                                             <TableCell align="left">{user.userName}</TableCell>
                                             <TableCell align="left">{user.phoneNumber}</TableCell>
                                             <TableCell align="left">{user.email}</TableCell>
-                                            <TableCell align="left">{user.roles[0].roleName}</TableCell>
+                                            <TableCell align="left">{GetRoleString(user.roles)}</TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
