@@ -5,8 +5,18 @@
     "pageTitle": "บัญชีผู้ใช้งาน Admin"
   },
   "adminEdit": {
-    "pageUrl": "/admin/",
+    "pageUrl": "/admin/:id",
     "allowRole": ["",""],
     "pageTitle": "เพิ่ม-แก้ไขบัญชีผู้ใช้งาน"
+  },
+  "Create-Parcel": {
+    "pageUrl": "/create-parcel",
+    "allowRole": ["",""],
+    "pageTitle": "รายการพัสดุ"
+  },
+  "Create-Product": {
+    "pageUrl": "/create-product",
+    "allowRole": ["",""],
+    "pageTitle": "สร้างสินค้า"
   }
 }

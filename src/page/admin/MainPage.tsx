@@ -43,9 +43,9 @@ function GetCompanyName(user: User | null) {
 export function MainPage() {
 
     const navigate = useNavigate();
-    useEffect(()=>{
-        navigate("/admin")
-    },[navigate])
+    // useEffect(()=>{
+    //     navigate("/admin")
+    // },[navigate])
 
     const title = useAppSelector(selectNavTitle);
 

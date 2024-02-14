@@ -2,7 +2,7 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {store} from './app/store';
-
+import pageData from "./type/PageData.json"
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
@@ -11,6 +11,9 @@ import RequireAuth from "./component/RequireAuth";
 import {AdminPage} from "./page/admin/AdminPage";
 import App from "./App";
 import {AdminEditPage} from "./page/admin/AdminEditPage";
+
+import {CreateParcelList} from "./page/Parcel/CreateParcelList";
+import {ProductDetail} from "./page/Product/ProductDetail";
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -31,6 +34,14 @@ const router = createBrowserRouter([
         children: [
             {path: 'admin', element: <RequireAuth><AdminPage></AdminPage></RequireAuth>},
             {path: 'admin/:id', element: <RequireAuth><AdminEditPage></AdminEditPage></RequireAuth>},
+            {
+                path: pageData["Create-Parcel"].pageUrl,
+                element: <RequireAuth><CreateParcelList></CreateParcelList></RequireAuth>
+            },
+            {
+                path: pageData["Create-Product"].pageUrl,
+                element: <RequireAuth><ProductDetail></ProductDetail></RequireAuth>
+            }
             // ... other child routes
         ],
     },

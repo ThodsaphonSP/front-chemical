@@ -432,7 +432,7 @@ export function AdminEditPage() {
                         </FormControl>
                     </Grid>
                     <Grid container={true} item xs={12}>
-                        <Grid xs>
+                        <Grid item xs>
                             <Button
                                 onClick={() => navigate(-1)}
                                 variant="contained"
@@ -447,7 +447,7 @@ export function AdminEditPage() {
                                 ย้อนกลับ
                             </Button>
                         </Grid>
-                        <Grid xs>
+                        <Grid item xs>
                             <Button
                                 disabled={id === "0"}
 
