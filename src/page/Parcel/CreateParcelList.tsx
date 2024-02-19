@@ -1,10 +1,11 @@
 import {BaseContainer} from "../admin/BaseContainer";
-import {Box, Grid, Tab, Tabs, Typography} from "@mui/material";
-import React, {useEffect} from "react";
+import {Box, Grid, Tab, Tabs} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import {setTitle} from "../../features/Nav/NavSlice";
 import pageData from "../../type/PageData.json";
 import {useDispatch} from "react-redux";
 import {Create} from "./Create";
+
 
 
 export interface TabPanelProps {
@@ -25,6 +26,7 @@ export function CreateParcelList(){
 
     const [value, setValue] = React.useState(0);
 
+
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -38,6 +40,8 @@ export function CreateParcelList(){
     }, [dispatch]);
 
 
+
+
     return (
         <>
             <BaseContainer>
@@ -45,21 +49,26 @@ export function CreateParcelList(){
                     <Grid item xs={12}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                <Tab label="Item One" {...a11yProps(0)} />
-                                <Tab label="Item Two" {...a11yProps(1)} />
-                                <Tab label="Item Three" {...a11yProps(2)} />
+                                <Tab label="สร้างรายการ" {...a11yProps(0)} />
+                                <Tab label="เตรียมจัดส่ง" {...a11yProps(1)} />
+                                <Tab label="รถ"  />
+                                <Tab label="ปริ้นด่วน"  />
                             </Tabs>
                         </Box>
-                        <Create value={value} index={0}>
-                            Item One
-                        </Create>
+                        <CustomTabPanel value={value} index={0}>
+                           <Create></Create>
+                        </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
                             Item Two
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
                             Item Three
                         </CustomTabPanel>
+                        <CustomTabPanel value={value} index={3}>
+                            ปริ้นด่วน
+                        </CustomTabPanel>
                     </Grid>
+
 
                 </Grid>
             </BaseContainer>
@@ -71,7 +80,7 @@ function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
 
     return (
-        <div
+        <Box
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
@@ -79,11 +88,11 @@ function CustomTabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                <Box sx={{ paddingTop:2 }}>
+                    {children}
                 </Box>
             )}
-        </div>
+        </Box>
     );
 }
 
