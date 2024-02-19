@@ -1,10 +1,10 @@
 
 import './App.css';
-import {createTheme, ThemeProvider} from "@mui/material";
+import {createTheme, responsiveFontSizes, ThemeProvider} from "@mui/material";
 import {MainPage} from "./page/admin/MainPage";
 
 
-const theme = createTheme({
+let theme = createTheme({
   typography: {
     fontFamily: [
       'Poppins',
@@ -13,6 +13,8 @@ const theme = createTheme({
   },
   // other theme settings
 });
+
+theme = responsiveFontSizes(theme);
 
 function App() {
   return (<>
