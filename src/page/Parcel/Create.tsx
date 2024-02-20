@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import {District, GetDistrict, GetProvince, Province} from "../../Services/AddressAPI";
+import {District, GetDistrict, GetProvince, PostalCode, Province, SubDistrict} from "../../Services/AddressAPI";
 
 
 export function Create() {
@@ -26,7 +26,16 @@ export function Create() {
 
     const [senderSelectedProvince, setSenderSelectedProvince] = useState<Province | null>();
 
-    const [senderDistrict, setSenderDistrict] = useState<District[]>([])
+    const [senderDistrict, setSenderDistrict] = useState<District[]>([]);
+
+    const [senderSubDistrict, setSenderSubDistrict] = useState<SubDistrict[]>([]);
+    const [senderPostalCode, setSenderPostalCode] = useState<PostalCode[]>([]);
+
+
+    const [senderSelectedDistrict, setSenderSelectedDistrict] = useState<District|null>(null);
+
+    const [senderSelectedSubDistrict, setSenderSelectedSubDistrict] = useState<SubDistrict|null>(null);
+    const [senderSelectedPostalCode, setSenderSelectedPostalCode] = useState<PostalCode|null>(null);
 
 
     const handleDeliveryVendor = (event: SelectChangeEvent) => {
@@ -90,11 +99,13 @@ export function Create() {
 
     }, [senderSelectedProvince])
 
+
+
     useEffect(() => {
         fetchSenderProvince();
 
     }, [])
-    const [senderSelectedDistrict, setSenderSelectedDistrict] = useState<District|null>(null);
+
 
     return (
         <>
@@ -174,6 +185,7 @@ export function Create() {
                         onChange={(event, value) => {
                             setSenderSelectedProvince(value || null); // Set the selected province
                             setSenderSelectedDistrict(null); // Reset the selected district to null or your default state
+                            setSenderSelectedSubDistrict(null);
                         }}
                         renderInput={(params) => <TextField {...params} label="จังหวัด" />}
                     />
@@ -187,41 +199,71 @@ export function Create() {
                         value={senderSelectedDistrict || null} // Ensure value is null if undefined
                         getOptionLabel={(option: District) => option.thaiName}
                         isOptionEqualToValue={(option, value) => option.id === value.id} // Assuming each option has a unique `id` property
-                        onChange={(event, value) => setSenderSelectedDistrict(value || null)}
+                        onChange={(event, district) =>{
+                            setSenderSelectedDistrict(district || null)
+                            setSenderSelectedSubDistrict(null);
+
+                            if (district) {
+
+
+
+                                const subDistrict = district.subDistricts;
+
+                                if (subDistrict){
+                                    setSenderSubDistrict(subDistrict);
+                                }else{
+                                    setSenderSubDistrict([])
+                                }
+                            }
+
+
+                        } }
                         renderInput={(params) => <TextField {...params} label="อำเภอ"/>}
                     />
                 </Grid>
                 <Grid item={true} xs={12} sm={6} md={3}>
-                    <FormControl fullWidth={true} size={"small"}>
-                        <InputLabel id="demo-simple-select-label">เลือกขนส่ง</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={deliveryVendor}
-                            label="ขนส่ง"
-                            onChange={handleDeliveryVendor}
-                        >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <Autocomplete
+                        size={"small"}
+                        disablePortal
+                        id="subdistrict"
+                        options={senderSubDistrict}
+                        value={senderSelectedSubDistrict || null} // Ensure value is null if undefined
+                        getOptionLabel={(option: SubDistrict) => option.thaiName}
+                        isOptionEqualToValue={(option, value) => option.id === value.id} // Assuming each option has a unique `id` property
+                        onChange={(event, subdistrict) => {
+                            setSenderSelectedSubDistrict(subdistrict || null);
+                            setSenderSelectedPostalCode(null)
+
+                            if (subdistrict) {
+
+
+
+                                const postalCodes = subdistrict.postalCodes;
+
+                                if (postalCodes){
+                                    setSenderPostalCode(postalCodes);
+                                }else{
+                                    setSenderPostalCode([])
+                                }
+                            }
+                        }}
+                        renderInput={(params) => <TextField {...params} label="ตำบล"/>}
+                    />
                 </Grid>
                 <Grid item={true} xs={12} sm={6} md={3}>
-                    <FormControl fullWidth={true} size={"small"}>
-                        <InputLabel id="demo-simple-select-label">เลือกขนส่ง</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={deliveryVendor}
-                            label="ขนส่ง"
-                            onChange={handleDeliveryVendor}
-                        >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <Autocomplete
+                        size={"small"}
+                        disablePortal
+                        id="postalcode"
+                        options={senderPostalCode}
+                        value={senderSelectedPostalCode || null} // Ensure value is null if undefined
+                        getOptionLabel={(option: PostalCode) => option.code}
+                        isOptionEqualToValue={(option, value) => option.id === value.id} // Assuming each option has a unique `id` property
+                        onChange={(event, value) => {
+                            setSenderSelectedPostalCode(value || null)
+                        }}
+                        renderInput={(params) => <TextField {...params} label="รหัสไปรษณีย์"/>}
+                    />
                 </Grid>
 
                 <Grid xs={12} item={true}>
