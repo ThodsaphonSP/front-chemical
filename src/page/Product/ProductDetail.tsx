@@ -3,7 +3,11 @@ import {Grid, TextField, Button, Select, MenuItem, InputLabel, FormControl, Sele
 import * as React from 'react';
 import {useState} from "react";
 import CategoryAPI from '../../Services/CategoryAPI';
-import {Category} from "../../Services/CategoryAPI";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import UnitOfMeasurementAPI from "../../Services/UnitOfMeasurementAPI";
 
 export interface Product {
     name: string,
@@ -15,12 +19,14 @@ export interface Product {
     price: number,
     isActive: boolean,
     categoryId: number,
-    substituteProductId: number,
+    substituteProductId: any,
     unitOfMeasurementId: any
 }
 
 export function ProductDetail() {
     const categories = CategoryAPI();
+    const unitOfMeasurements = UnitOfMeasurementAPI();
+
     const [formData, setFormData] = useState({
         name: '',
         code: '',
@@ -29,10 +35,10 @@ export function ProductDetail() {
         multiplier: '',
         quantity: '',
         price: '',
-        isActive: '',
+        isActive: true,
         categoryId: '',
-        substituteProductId: '',
-        unitOfMeasurementId: ''
+        substituteProductId: "",
+        unitOfMeasurementId: ""
     })
 
     const [formDataError, setFormDataError] = useState({
@@ -57,7 +63,7 @@ export function ProductDetail() {
             multiplier: '',
             quantity: '',
             price: '',
-            isActive: '',
+            isActive: false,
             categoryId: '',
             substituteProductId: '',
             unitOfMeasurementId: ''
@@ -109,9 +115,10 @@ export function ProductDetail() {
     const handleChangeIsActive = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
-            isActive: event.target.value
+            isActive: event.target.value === "true" // Set to true or false directly
         }));
     };
+
     const handleChangeCategoryIdChange = (event: SelectChangeEvent<string>) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -175,13 +182,8 @@ export function ProductDetail() {
                 price: true
             }));
         }
-        if (formData.isActive === '') {
-            setFormDataError((prevFormDataError) => ({
-                ...prevFormDataError,
-                isActive: true
-            }));
-        }
     };
+
     return (
         <BaseContainer>
             <h3>Product Details</h3>
@@ -272,22 +274,19 @@ export function ProductDetail() {
                         fullWidth
                         required
                     /></Grid>
-                    <Grid item xs={6}> <TextField
-                        label="Is active"
-                        variant="outlined"
-                        size="small"
-                        type="number"
-                        value={formData.isActive}
-                        error={formDataError.isActive}
-                        onChange={handleChangeIsActive}
-                        fullWidth
-                        required
-                    /></Grid>
+                    <Grid item xs={6}>
+                        <FormControl>
+                            <FormLabel id="demo-radio-buttons-group-label"></FormLabel>
+                            <RadioGroup row value={formData.isActive} onChange={handleChangeIsActive}>
+                                <FormControlLabel value={1} control={<Radio/>} label="Active"/>
+                                <FormControlLabel value={0} control={<Radio/>} label="Inactive"/>
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
                     <Grid item xs={4}>
                         <FormControl size="small" fullWidth>
                             <InputLabel id="demo-select-small-label">Category ID</InputLabel>
                             <Select
-
                                 labelId="demo-select-small-label"
                                 id="demo-select-small"
                                 value={formData.categoryId}
@@ -316,9 +315,6 @@ export function ProductDetail() {
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {/*                {categories.map((category) => (
-                                <MenuItem>{category.products}</MenuItem>
-                            ))}*/}
                         </Select>
                     </FormControl></Grid>
                     <Grid item xs={4}>
@@ -328,13 +324,16 @@ export function ProductDetail() {
 
                                 labelId="demo-select-small-label"
                                 id="demo-select-small"
-                                value={formData.categoryId}
+                                value={formData.unitOfMeasurementId}
                                 label="Unit of measurement ID"
                                 onChange={handleChangeUnitOfMeasurementIdChange}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
+                                {unitOfMeasurements.map((unit) => (
+                                    <MenuItem key={unit.id} value={unit.id}>{unit.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
