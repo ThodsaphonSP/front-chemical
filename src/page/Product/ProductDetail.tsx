@@ -1,31 +1,24 @@
 import {BaseContainer} from "../admin/BaseContainer";
-import {Grid, TextField, Button, Select, MenuItem, InputLabel, FormControl, SelectChangeEvent} from "@mui/material";
-import * as React from 'react';
-import {useState} from "react";
-import CategoryAPI from '../../Services/CategoryAPI';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
+import {
+    Grid,
+    TextField,
+    Button,
+    Select,
+    MenuItem,
+    InputLabel,
+    FormControl,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormLabel, SelectChangeEvent,
+} from "@mui/material";
+import React, {useState} from "react";
+import CategoryAPI from "../../Services/CategoryAPI";
 import UnitOfMeasurementAPI from "../../Services/UnitOfMeasurementAPI";
-
-export interface Product {
-    name: string,
-    code: string,
-    detail: string,
-    standardPrice: number,
-    multiplier: number,
-    quantity: number,
-    price: number,
-    isActive: boolean,
-    categoryId: number,
-    substituteProductId: any,
-    unitOfMeasurementId: any
-}
 
 export function ProductDetail() {
     const categories = CategoryAPI();
-    const unitOfMeasurements = UnitOfMeasurementAPI();
+    const unitOfMeasurements = UnitOfMeasurementAPI()
 
     const [formData, setFormData] = useState({
         name: '',
@@ -113,9 +106,10 @@ export function ProductDetail() {
         }));
     };
     const handleChangeIsActive = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value)
         setFormData((prevFormData) => ({
             ...prevFormData,
-            isActive: event.target.value === "true" // Set to true or false directly
+            isActive: event.target.value === "1" // Convert "1" to true, "0" to false
         }));
     };
 
@@ -277,9 +271,9 @@ export function ProductDetail() {
                     <Grid item xs={6}>
                         <FormControl>
                             <FormLabel id="demo-radio-buttons-group-label"></FormLabel>
-                            <RadioGroup row value={formData.isActive} onChange={handleChangeIsActive}>
-                                <FormControlLabel value={1} control={<Radio/>} label="Active"/>
-                                <FormControlLabel value={0} control={<Radio/>} label="Inactive"/>
+                            <RadioGroup row value={formData.isActive ? "1" : "0"} onChange={handleChangeIsActive}>
+                                <FormControlLabel value="1" control={<Radio/>} label="Active"/>
+                                <FormControlLabel value="0" control={<Radio/>} label="Inactive"/>
                             </RadioGroup>
                         </FormControl>
                     </Grid>
