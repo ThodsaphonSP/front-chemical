@@ -2,9 +2,25 @@ import {BaseContainer} from "../admin/BaseContainer";
 import {Grid, TextField, Button, Select, MenuItem, InputLabel, FormControl, SelectChangeEvent} from "@mui/material";
 import * as React from 'react';
 import {useState} from "react";
+import CategoryAPI from '../../Services/CategoryAPI';
+import {Category} from "../../Services/CategoryAPI";
+
+export interface Product {
+    name: string,
+    code: string,
+    detail: string,
+    standardPrice: number,
+    multiplier: number,
+    quantity: number,
+    price: number,
+    isActive: boolean,
+    categoryId: number,
+    substituteProductId: number,
+    unitOfMeasurementId: any
+}
 
 export function ProductDetail() {
-
+    const categories = CategoryAPI();
     const [formData, setFormData] = useState({
         name: '',
         code: '',
@@ -29,81 +45,9 @@ export function ProductDetail() {
         price: false,
         isActive: false,
     })
-//Forms handle changing
-    const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            name: event.target.value
-        }));
-    };
-
-    const handleCode = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            code: event.target.value
-        }));
-    };
-    const handleDetail = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            detail: event.target.value
-        }));
-    };
-    const handleStandardPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            standardPrice: event.target.value
-        }));
-    };
-
-    const handleMultiplier = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            multiplier: event.target.value
-        }));
-    };
-
-    const handleQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            quantity: event.target.value
-        }));
-    };
-
-    const handlePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            price: event.target.value
-        }));
-    };
-
-    const handleIsActive = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            isActive: event.target.value
-        }));
-    };
-    const handleCategoryIdChange = (event: SelectChangeEvent<string>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            categoryId: event.target.value
-        }));
-    };
-
-    const handleSubstituteProductId = (event: SelectChangeEvent<string>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            substituteProductId: event.target.value
-        }));
-    }
-
-    const handleUnitOfMeasurementIdChange = (event: SelectChangeEvent<string>) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            unitOfMeasurementId: event.target.value
-        }));
-    }
     //---------------------------------------------------------------------------------------------
+
+//Forms handle changing
     const clearTextFields = () => {
         setFormData({
             name: '',
@@ -119,7 +63,75 @@ export function ProductDetail() {
             unitOfMeasurementId: ''
         });
     }
-    //Forms validation
+//Form changing on textfields
+    const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            name: event.target.value
+        }));
+    };
+    const handleChangeCode = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            code: event.target.value
+        }));
+    };
+    const handleChangeDetail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            detail: event.target.value
+        }));
+    };
+    const handleChangeStandardPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            standardPrice: event.target.value
+        }));
+    };
+    const handleChangeMultiplier = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            multiplier: event.target.value
+        }));
+    };
+    const handleChangeQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            quantity: event.target.value
+        }));
+    };
+    const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            price: event.target.value
+        }));
+    };
+    const handleChangeIsActive = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            isActive: event.target.value
+        }));
+    };
+    const handleChangeCategoryIdChange = (event: SelectChangeEvent<string>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            categoryId: event.target.value
+        }));
+    };
+    const handleChangeSubstituteProductId = (event: SelectChangeEvent<string>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            substituteProductId: event.target.value
+        }));
+    }
+    const handleChangeUnitOfMeasurementIdChange = (event: SelectChangeEvent<string>) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            unitOfMeasurementId: event.target.value
+        }));
+    }
+    //----------------------------------------------------------------------------------------------------------
+    //handle save button
     const handleSave = () => {
         if (formData.name === '') {
             setFormDataError((prevFormDataError) => ({
@@ -183,7 +195,7 @@ export function ProductDetail() {
                             type="text"
                             value={formData.name}
                             error={formDataError.name}
-                            onChange={handleName}
+                            onChange={handleChangeName}
                             fullWidth
                             required
                         />
@@ -196,7 +208,7 @@ export function ProductDetail() {
                             type="text"
                             value={formData.code}
                             error={formDataError.code}
-                            onChange={handleCode}
+                            onChange={handleChangeCode}
                             fullWidth
                             required
                         />
@@ -209,7 +221,7 @@ export function ProductDetail() {
                             type="text"
                             value={formData.detail}
                             error={formDataError.detail}
-                            onChange={handleDetail}
+                            onChange={handleChangeDetail}
                             fullWidth
                             required
                         />
@@ -222,7 +234,7 @@ export function ProductDetail() {
                             type="number"
                             value={formData.standardPrice}
                             error={formDataError.standardPrice}
-                            onChange={handleStandardPrice}
+                            onChange={handleChangeStandardPrice}
                             fullWidth
                             required
                         />
@@ -234,7 +246,7 @@ export function ProductDetail() {
                         type="number"
                         value={formData.multiplier}
                         error={formDataError.multiplier}
-                        onChange={handleMultiplier}
+                        onChange={handleChangeMultiplier}
                         fullWidth
                         required
                     /></Grid>
@@ -245,7 +257,7 @@ export function ProductDetail() {
                         type="number"
                         value={formData.quantity}
                         error={formDataError.quantity}
-                        onChange={handleQuantity}
+                        onChange={handleChangeQuantity}
                         fullWidth
                         required
                     /></Grid>
@@ -256,7 +268,7 @@ export function ProductDetail() {
                         type="number"
                         value={formData.price}
                         error={formDataError.price}
-                        onChange={handlePrice}
+                        onChange={handleChangePrice}
                         fullWidth
                         required
                     /></Grid>
@@ -267,7 +279,7 @@ export function ProductDetail() {
                         type="number"
                         value={formData.isActive}
                         error={formDataError.isActive}
-                        onChange={handleIsActive}
+                        onChange={handleChangeIsActive}
                         fullWidth
                         required
                     /></Grid>
@@ -275,66 +287,73 @@ export function ProductDetail() {
                         <FormControl size="small" fullWidth>
                             <InputLabel id="demo-select-small-label">Category ID</InputLabel>
                             <Select
+
                                 labelId="demo-select-small-label"
                                 id="demo-select-small"
                                 value={formData.categoryId}
                                 label="Category ID"
-                                onChange={handleCategoryIdChange}
+                                onChange={handleChangeCategoryIdChange}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                {categories.map((category) => (
+                                    <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item xs={4}><FormControl size="small" fullWidth>
                         <InputLabel id="demo-select-small-label">Substitute Product ID</InputLabel>
                         <Select
+
                             labelId="demo-select-small-label"
                             id="demo-select-small"
                             value={formData.substituteProductId}
                             label="Substitute Product ID"
-                            onChange={handleSubstituteProductId}
+                            onChange={handleChangeSubstituteProductId}
                         >
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            {/*                {categories.map((category) => (
+                                <MenuItem>{category.products}</MenuItem>
+                            ))}*/}
                         </Select>
                     </FormControl></Grid>
                     <Grid item xs={4}>
                         <FormControl size="small" fullWidth>
                             <InputLabel id="demo-select-small-label">Unit of measurement ID</InputLabel>
                             <Select
+
                                 labelId="demo-select-small-label"
                                 id="demo-select-small"
-                                value={formData.unitOfMeasurementId}
+                                value={formData.categoryId}
                                 label="Unit of measurement ID"
-                                onChange={handleUnitOfMeasurementIdChange}
+                                onChange={handleChangeUnitOfMeasurementIdChange}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} container justifyContent="space-between">
                         <Grid item>
-                            <Button variant="contained" color="success" onClick={handleSave}
-                                    type="submit">บันทึก</Button>
+                            <Button
+                                variant="contained"
+                                color="success"
+                                type="submit"
+                                onClick={handleSave}
+                            >บันทึก</Button>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" type="reset"
-                                    style={{backgroundColor: "red", color: "white"}}
-                                    onClick={clearTextFields}>รีเซ็ท</Button>
+                            <Button
+                                variant="contained"
+                                type="reset"
+                                style={{backgroundColor: "red", color: "white"}}
+                                onClick={clearTextFields}
+                            >รีเซ็ท</Button>
                         </Grid>
                     </Grid>
                 </Grid>

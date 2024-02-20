@@ -4,6 +4,4 @@ export class Role {
     name: string = "";
     normalizedName: string = "";
     concurrencyStamp: string | null = null;
-
-
 }
