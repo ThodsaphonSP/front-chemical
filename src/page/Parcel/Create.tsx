@@ -19,17 +19,20 @@ import {
     SubDistrict,
     VendorDelivery
 } from "../../Services/AddressAPI";
-import {AxiosResponse} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {Controller, useFieldArray, useForm} from "react-hook-form";
 import {DevTool} from "@hookform/devtools";
 import {GetProduct, Product} from "../../Services/productAPI";
+import {registerAccount, UserRegistrationRequest} from "../../Services/RoleAPI";
+import {CreateParcel} from "../../Services/ParcelAPI";
+import {useNavigate} from "react-router-dom";
 
 export type productQuantity = {
     product: Product | null,
     quantity: number
 }
 
-type FormValues = {
+export type ParcelForm = {
     sender: {
         firstname: string,
         lastname: string,
@@ -65,7 +68,7 @@ type FormValues = {
 export function Create() {
 
 
-    const form = useForm<FormValues>({
+    const form = useForm<ParcelForm>({
         defaultValues: {
             sender: {
                 firstname: '',
@@ -87,6 +90,7 @@ export function Create() {
     const {register, control, handleSubmit, formState, watch} = form;
     const {errors} = formState;
 
+    const navigate = useNavigate();
 
 
     const {fields, append, remove} = useFieldArray({
@@ -225,11 +229,29 @@ export function Create() {
 
     }, [])
 
-    const onSubmit = (data: FormValues) => {
+    const onSubmit = (data: ParcelForm) => {
         console.log("Form submitted", data)
+         workOnsubmit(data);
     }
 
-
+    const workOnsubmit = async ( formValue:ParcelForm ) => {
+        //create
+        try {
+            const response = await CreateParcel(formValue);
+            if (response.status === 200) { // or any other status that means success.
+                alert("บันทึกข้อมูลพัสดุ สำเร็จ")
+                navigate("/");
+            }
+        } catch (error: unknown) {
+            if (error instanceof AxiosError && error.response) {
+                // Check for status code 500
+                if (error.response.status === 500) {
+                    console.error('Server Error: 500');
+                    alert(" กรุณาเช็คข้อมูล หรือ ติดต่อ ผู้ดูแลระบบ")
+                }
+            }
+        }
+    };
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} noValidate={true}>
