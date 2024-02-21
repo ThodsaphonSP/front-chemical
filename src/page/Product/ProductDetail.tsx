@@ -12,13 +12,37 @@ import {
     FormControlLabel,
     FormLabel, SelectChangeEvent,
 } from "@mui/material";
-import React, {useState} from "react";
-import CategoryAPI from "../../Services/CategoryAPI";
-import UnitOfMeasurementAPI from "../../Services/UnitOfMeasurementAPI";
+import React, {useEffect, useState} from "react";
+import {GetCategory, Category} from "../../Services/CategoryAPI";
+import {GetUnit, UnitOfMeasurement} from "../../Services/UnitOfMeasurementAPI";
+import axios from "axios";
 
 export function ProductDetail() {
-    const categories = CategoryAPI();
-    const unitOfMeasurements = UnitOfMeasurementAPI()
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [units, setUnits] = useState<UnitOfMeasurement[]>([])
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await GetCategory();
+                // @ts-ignore
+                setCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        const fetchUnit = async () => {
+            try {
+                const response = await GetUnit();
+                setUnits(response.data);
+            } catch (error) {
+                console.log('Error fetching ')
+            }
+
+        }
+        fetchCategories();
+        fetchUnit();
+    }, []);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -325,7 +349,7 @@ export function ProductDetail() {
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                {unitOfMeasurements.map((unit) => (
+                                {units.map((unit) => (
                                     <MenuItem key={unit.id} value={unit.id}>{unit.name}</MenuItem>
                                 ))}
                             </Select>

@@ -1,20 +1,12 @@
-import {useEffect, useState} from "react";
+
+import axios, {AxiosResponse} from "axios";
+import {api} from "./RoleAPI";
 export interface UnitOfMeasurement {
     id: number;
     name: string;
 }
-export default function UnitOfMeasurementAPI() {
-    const [unitOfMeasurements, setUnitOfMeasurements] = useState<UnitOfMeasurement[]>([]);
-
-    useEffect(() => {
-            fetch("http://localhost:5249/api/UnitOfMeasurement")
-                .then(response => response.json())
-                .then((result: UnitOfMeasurement[]) => {
-                    setUnitOfMeasurements(result);
-                }).catch(error => {
-                console.error('Error fetching categories:', error);
-            });
-        }
-    )
-    return unitOfMeasurements;
-}
+export const GetUnit = async (): Promise<AxiosResponse<UnitOfMeasurement[]>> => {
+    const url = `/api/UnitOfMeasurement`;
+    const response: AxiosResponse<UnitOfMeasurement[]> = await api.get<UnitOfMeasurement[]>(url);
+    return response;
+};

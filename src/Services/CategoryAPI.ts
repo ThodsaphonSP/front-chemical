@@ -1,4 +1,6 @@
-import {useEffect, useState} from "react";
+import axios, {AxiosResponse} from "axios";
+import {api} from "./RoleAPI";
+
 
 export interface Category {
     name: string;
@@ -12,18 +14,9 @@ export interface Category {
     isActive: boolean;
 }
 
-export default function CategoryAPI() {
-    const [categories, setCategories] = useState<Category[]>([]);
-    useEffect(() => {
-        fetch('http://localhost:5249/api/Category')
-            .then(response => response.json())
-            .then((result: Category[]) => {
-                setCategories(result);
-            })
-            .catch(error => {
-                console.error('Error fetching categories:', error);
-            });
-    }, []);
 
-    return categories;
-}
+export const GetCategory = async (): Promise<AxiosResponse<Category[]>> => {
+    const url = `/api/Category`;
+    const response: AxiosResponse<Category[]> = await api.get<Category[]>(url);
+    return response;
+};
