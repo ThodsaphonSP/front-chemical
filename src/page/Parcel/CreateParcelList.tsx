@@ -45,7 +45,7 @@ export function CreateParcelList(){
     return (
         <>
             <BaseContainer>
-                <Grid rowSpacing={1} columnSpacing={1} container component="form" >
+                <Grid rowSpacing={1} columnSpacing={1} container  >
                     <Grid item xs={12}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
