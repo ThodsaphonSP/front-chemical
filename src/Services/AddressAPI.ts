@@ -72,3 +72,14 @@ export const GetDistrict = async (provinceId: number): Promise<AxiosResponse<Dis
     const response: AxiosResponse<District[]> = await api.get<District[]>(url);
     return response;
 };
+
+export class VendorDelivery{
+    id:number = 0;
+    name:string = ""
+}
+
+export const GetVendorList = async (): Promise<AxiosResponse<VendorDelivery[]>> => {
+    const url = `/api/VendorDelivery`;
+    const response: AxiosResponse<VendorDelivery[]> = await api.get<VendorDelivery[]>(url);
+    return response;
+};

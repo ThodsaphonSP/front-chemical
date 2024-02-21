@@ -14,13 +14,23 @@ import {
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import {District, GetDistrict, GetProvince, PostalCode, Province, SubDistrict} from "../../Services/AddressAPI";
+import {
+    District,
+    GetDistrict,
+    GetProvince,
+    GetVendorList,
+    PostalCode,
+    Province,
+    SubDistrict,
+    VendorDelivery
+} from "../../Services/AddressAPI";
+import {AxiosResponse} from "axios";
 
 
 export function Create() {
 
-
-    const [deliveryVendor, setDeliveryVendor] = useState<string>("10");
+    const [vendorDelivery,setVendorDelivery] = useState<VendorDelivery[]>([])
+    const [selectVendorDelivery,setSelectVendorDelivery] = useState<VendorDelivery|null>()
 
     const [senderProvince, setSenderProvince] = useState<Province[]>([])
 
@@ -38,9 +48,7 @@ export function Create() {
     const [senderSelectedPostalCode, setSenderSelectedPostalCode] = useState<PostalCode|null>(null);
 
 
-    const handleDeliveryVendor = (event: SelectChangeEvent) => {
-        setDeliveryVendor(event.target.value)
-    };
+
 
     const handSaveAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIssSaveAddress(event.target.checked);
@@ -51,6 +59,25 @@ export function Create() {
 
     };
     const handleCOD = () => {
+
+    };
+
+
+    const fetchVendorDelivery = async (): Promise<void> => {
+        // setRoleLoading(true);
+        try {
+            const response: AxiosResponse<VendorDelivery[]> = await GetVendorList();
+
+            const data: VendorDelivery[] = response.data
+
+            setVendorDelivery(data)
+
+
+
+
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+        }
 
     };
 
@@ -103,6 +130,7 @@ export function Create() {
 
     useEffect(() => {
         fetchSenderProvince();
+        fetchVendorDelivery();
 
     }, [])
 
@@ -122,18 +150,20 @@ export function Create() {
                     </Grid>
                     <Grid item={true}>
                         <FormControl size={"small"} sx={{minWidth: "150px"}}>
-                            <InputLabel id="demo-simple-select-label">เลือกขนส่ง</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={deliveryVendor}
-                                label="ขนส่ง"
-                                onChange={handleDeliveryVendor}
-                            >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
+                            <Autocomplete
+                                size={"small"}
+                                disablePortal
+                                id="vendor-delivery"
+                                options={vendorDelivery}
+                                value={selectVendorDelivery || null} // Ensure value is null if undefined
+                                getOptionLabel={(option:VendorDelivery) => option.name}
+                                isOptionEqualToValue={(option, value) => option.id === value.id} // Assuming each option has a unique `id` property
+                                onChange={(event, value) => {
+                                    setSelectVendorDelivery(value || null); // Set the selected province
+
+                                }}
+                                renderInput={(params) => <TextField {...params} label="เลือกขนส่ง" />}
+                            />
                         </FormControl>
                     </Grid>
                 </Grid>
