@@ -1,13 +1,12 @@
 import {
     Autocomplete,
-    Button, Checkbox, FormControlLabel,
+    Button, Checkbox, FormControl, FormControlLabel,
     FormGroup,
-    Grid, IconButton,
-    TextField,
+    Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField,
     Typography
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {  red } from '@mui/material/colors';
+import {red} from '@mui/material/colors';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
@@ -43,15 +42,29 @@ type FormValues = {
         vendorDelivery: VendorDelivery | null,
         selectProduct: {
             indexNumber: productQuantity | null
-        }[]
+        }[],
+        saveAddress: boolean
 
+    }
+    receive: {
+        firstname: string,
+        lastname: string,
+        phoneNo: string,
+        addressText: string,
+        province: Province | null,
+        district: District | null,
+        subDistrict: SubDistrict | null,
+        postalCode: PostalCode | null,
+        vendorDelivery: VendorDelivery | null,
+        saveAddress:boolean,
+        cod:boolean
     }
 }
 
 
 export function Create() {
 
-    const primary = red[500]; // #f44336
+
     const form = useForm<FormValues>({
         defaultValues: {
             sender: {
@@ -74,16 +87,17 @@ export function Create() {
     const {register, control, handleSubmit, formState, watch} = form;
     const {errors} = formState;
 
-    const [productQuantity, setProductQuantity] = useState<number>(0);
+
 
     const {fields, append, remove} = useFieldArray({
         name: "sender.selectProduct",
         control
     })
 
-    const provinceValue = watch("sender.province");
+    const senderProvinceValue = watch("sender.province");
 
-    const [productSelected, setProductSelected] = useState<Product | null>(null);
+    const receiveProvinceValue = watch("receive.province");
+
 
     const [productArray, setProductArray] = useState<Product[]>([])
 
@@ -98,11 +112,18 @@ export function Create() {
     const [senderPostalCode, setSenderPostalCode] = useState<PostalCode[]>([]);
 
 
-    const handSaveAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIssSaveAddress(event.target.checked);
-    };
 
-    const [isSaveAddress, setIssSaveAddress] = useState(false);
+    const [receiveProvince, setReceiveProvince] = useState<Province[]>([])
+
+
+    const [receiveDistrict, setReceiveDistrict] = useState<District[]>([]);
+
+    const [receiveSubDistrict, setReceiveSubDistrict] = useState<SubDistrict[]>([]);
+    const [receivePostalCode, setReceivePostalCode] = useState<PostalCode[]>([]);
+
+
+
+
 
 
     const fetchVendorDelivery = async (): Promise<void> => {
@@ -137,14 +158,15 @@ export function Create() {
 
     };
 
-    const fetchSenderProvince = async (): Promise<void> => {
+    const fetchProvince = async (): Promise<void> => {
         // setRoleLoading(true);
         try {
             const response = await GetProvince();
 
             const data: Province[] = response.data
 
-            setSenderProvince(data)
+            setSenderProvince(data);
+            setReceiveProvince(data);
 
 
         } catch (error) {
@@ -154,28 +176,50 @@ export function Create() {
     };
 
 
-    const fetchSenderDisctrict = async (): Promise<void> => {
-        if (!provinceValue) { // Use the watched province value
-            return;
-        }
 
-        try {
-            const response = await GetDistrict(provinceValue.id); // Assume provinceValue contains the province object
-            const data: District[] = response.data;
-            setSenderDistrict(data);
-        } catch (error) {
-            console.error('Failed to fetch data:', error);
-        }
-    };
+
+
 
 
     useEffect(() => {
+
+        const fetchSenderDisctrict = async (): Promise<void> => {
+            if (!senderProvinceValue) { // Use the watched province value
+                return;
+            }
+
+            try {
+                const response = await GetDistrict(senderProvinceValue.id); // Assume provinceValue contains the province object
+                const data: District[] = response.data;
+                setSenderDistrict(data);
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+        };
         fetchSenderDisctrict();
-    }, [provinceValue]); // Depend on the watched province value
+    }, [senderProvinceValue]); // Depend on the watched province value
+
+    useEffect(() => {
+
+        const fetchReceiveDisctrict = async (): Promise<void> => {
+            if (!receiveProvinceValue) { // Use the watched province value
+                return;
+            }
+
+            try {
+                const response = await GetDistrict(receiveProvinceValue.id); // Assume provinceValue contains the province object
+                const data: District[] = response.data;
+                setReceiveDistrict(data);
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+        };
+        fetchReceiveDisctrict();
+    }, [receiveProvinceValue]); // Depend on the watched province value
 
 
     useEffect(() => {
-        fetchSenderProvince();
+        fetchProvince();
         fetchVendorDelivery();
         fetchProduct();
 
@@ -498,13 +542,13 @@ export function Create() {
                                     {...register(`sender.selectProduct.${index}.indexNumber.quantity`,
                                         {
                                             required: {
-                                                value:true,
-                                                message:"กรุณาระบะจำนวนสินค้า"
+                                                value: true,
+                                                message: "กรุณาระบะจำนวนสินค้า"
                                             },
-                                            min:{
-                                                value:1,
-                                                message:"ใส่จำนวนมากกว่า 0"
-                                            }
+                                            min: {
+                                                value: 1,
+                                                message: "ใส่จำนวนมากกว่า 0"
+                                            }, valueAsNumber: true
                                         })}
                                 />
                             </Grid>
@@ -512,9 +556,13 @@ export function Create() {
                                 <Grid item={true} xs={2}>
                                     <Button
                                         variant="outlined"
-                                        startIcon={<DeleteForeverIcon />}
+                                        startIcon={<DeleteForeverIcon/>}
                                         onClick={() => remove(index)}
-                                        sx={{ color: red[500], borderColor: red[500], "&:hover": { borderColor: red[700], bgcolor: red[50] } }}
+                                        sx={{
+                                            color: red[500],
+                                            borderColor: red[500],
+                                            "&:hover": {borderColor: red[700], bgcolor: red[50]}
+                                        }}
                                     >
                                         ลบ
                                     </Button>
@@ -524,177 +572,326 @@ export function Create() {
                     ))}
 
 
-
                     <Grid xs={12} item={true}>
-                        <FormGroup>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={isSaveAddress} // Use `checked` to control the component
-                                        onChange={handSaveAddress} // Update the state based on change
+                        <Controller
+                            name="sender.saveAddress"
+                            control={control}
+                            defaultValue={false} // Default value for the checkbox
+                            render={({field}) => (
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                {...field} // Spread field props to Checkbox
+                                                checked={field.value} // Use field.value for Checkbox's checked state
+                                                onChange={(e) => field.onChange(e.target.checked)} // Update form value on change
+                                            />
+                                        }
+                                        label="บันทึกที่อยู่" // Your label text here
                                     />
-                                }
-                                label="บันทึกที่อยู่"
-                            />
-                        </FormGroup>
+                                </FormGroup>
+                            )}
+                        />
                     </Grid>
+
 
                 </Grid>
 
-                {/*<Grid sx={{mt:10}} rowSpacing={2} columnSpacing={2} container={true}>*/}
-                {/*    <Grid item={true} xs={12}>*/}
-                {/*        <Typography>ผู้รับ (ที่อยู่ในการจัดส่ง)</Typography>*/}
+                <Grid sx={{mt: 10}} rowSpacing={2} columnSpacing={2} container={true}>
+                    <Grid item={true} xs={12}>
+                        <Typography>ผู้รับ (ที่อยู่ในการจัดส่ง)</Typography>
 
-                {/*    </Grid>*/}
-                {/*    <Grid   item={true} xs={12}>*/}
-                {/*        <FormControl size={"small"} sx={{  width: '25ch' }} variant="outlined">*/}
-                {/*            <InputLabel htmlFor="phoneNumber">ค้นหา หมายเลขโทรศัพท์</InputLabel>*/}
-                {/*            <OutlinedInput*/}
-                {/*                id="phoneNumber"*/}
-                {/*                type={ 'tel' }*/}
-                {/*                endAdornment={*/}
-                {/*                    <InputAdornment position="end">*/}
-                {/*                        <IconButton*/}
-                {/*                            aria-label="toggle password visibility"*/}
-                {/*                            onClick={searchReceive}*/}
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                        <FormControl size={"small"} sx={{width: '25ch'}} variant="outlined">
+                            <InputLabel htmlFor="phoneNumber">ค้นหา หมายเลขโทรศัพท์</InputLabel>
+                            <OutlinedInput
+                                id="phoneNumber"
+                                type={'tel'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
 
-                {/*                            edge="end"*/}
-                {/*                        >*/}
-                {/*                            <SearchIcon/>*/}
-                {/*                        </IconButton>*/}
-                {/*                    </InputAdornment>*/}
-                {/*                }*/}
-                {/*                label="Password"*/}
-                {/*            />*/}
-                {/*        </FormControl>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item={true} xs={12} sm={6} md={4}>*/}
-                {/*        <TextField size={"small"} fullWidth={true}*/}
-                {/*                   error*/}
-                {/*                   id="firstname"*/}
-                {/*                   label="ชื่อ"*/}
-                {/*                   defaultValue="Hello World"*/}
-                {/*                   helperText="Incorrect entry."*/}
-                {/*        />*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item={true} xs={12} sm={6} md={4}>*/}
-                {/*        <TextField size={"small"} fullWidth={true}*/}
-                {/*                   error*/}
-                {/*                   id="lastName"*/}
-                {/*                   label="นามสกุล"*/}
-                {/*                   defaultValue="Hello World"*/}
-                {/*                   helperText="Incorrect entry."*/}
-                {/*        />*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item={true} xs={12} sm={12} md={4}>*/}
-                {/*        <TextField size={"small"} fullWidth={true}*/}
-                {/*                   error*/}
-                {/*                   id="phoneNo"*/}
-                {/*                   label="หมายเลขโทรศัพท์"*/}
-                {/*                   defaultValue="Hello World"*/}
-                {/*                   helperText="Incorrect entry."*/}
-                {/*        />*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item={true} xs={12} md={12}>*/}
-                {/*        <TextField size={"small"} fullWidth={true}*/}
-                {/*                   error*/}
-                {/*                   id="address"*/}
-                {/*                   label="ที่อยู่"*/}
-                {/*                   defaultValue="Hello World"*/}
-                {/*                   helperText="Incorrect entry."*/}
-                {/*        />*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item={true} xs={12} sm={6} md={3}>*/}
-                {/*        <FormControl fullWidth={true} size={"small"} >*/}
-                {/*            <InputLabel id="demo-simple-select-label">เลือกขนส่ง</InputLabel>*/}
-                {/*            <Select*/}
-                {/*                labelId="demo-simple-select-label"*/}
-                {/*                id="demo-simple-select"*/}
-                {/*                value={deliveryVendor}*/}
-                {/*                label="ขนส่ง"*/}
-                {/*                onChange={handleDeliveryVendor}*/}
-                {/*            >*/}
-                {/*                <MenuItem value={10}>Ten</MenuItem>*/}
-                {/*                <MenuItem value={20}>Twenty</MenuItem>*/}
-                {/*                <MenuItem value={30}>Thirty</MenuItem>*/}
-                {/*            </Select>*/}
-                {/*        </FormControl>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item={true} xs={12} sm={6} md={3}>*/}
-                {/*        <FormControl fullWidth={true} size={"small"} >*/}
-                {/*            <InputLabel id="demo-simple-select-label">เลือกขนส่ง</InputLabel>*/}
-                {/*            <Select*/}
-                {/*                labelId="demo-simple-select-label"*/}
-                {/*                id="demo-simple-select"*/}
-                {/*                value={deliveryVendor}*/}
-                {/*                label="ขนส่ง"*/}
-                {/*                onChange={handleDeliveryVendor}*/}
-                {/*            >*/}
-                {/*                <MenuItem value={10}>Ten</MenuItem>*/}
-                {/*                <MenuItem value={20}>Twenty</MenuItem>*/}
-                {/*                <MenuItem value={30}>Thirty</MenuItem>*/}
-                {/*            </Select>*/}
-                {/*        </FormControl>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item={true} xs={12} sm={6} md={3}>*/}
-                {/*        <FormControl fullWidth={true} size={"small"} >*/}
-                {/*            <InputLabel id="demo-simple-select-label">เลือกขนส่ง</InputLabel>*/}
-                {/*            <Select*/}
-                {/*                labelId="demo-simple-select-label"*/}
-                {/*                id="demo-simple-select"*/}
-                {/*                value={deliveryVendor}*/}
-                {/*                label="ขนส่ง"*/}
-                {/*                onChange={handleDeliveryVendor}*/}
-                {/*            >*/}
-                {/*                <MenuItem value={10}>Ten</MenuItem>*/}
-                {/*                <MenuItem value={20}>Twenty</MenuItem>*/}
-                {/*                <MenuItem value={30}>Thirty</MenuItem>*/}
-                {/*            </Select>*/}
-                {/*        </FormControl>*/}
-                {/*    </Grid>*/}
-                {/*    <Grid item={true} xs={12} sm={6} md={3}>*/}
-                {/*        <FormControl fullWidth={true} size={"small"} >*/}
-                {/*            <InputLabel id="demo-simple-select-label">เลือกขนส่ง</InputLabel>*/}
-                {/*            <Select*/}
-                {/*                labelId="demo-simple-select-label"*/}
-                {/*                id="demo-simple-select"*/}
-                {/*                value={deliveryVendor}*/}
-                {/*                label="ขนส่ง"*/}
-                {/*                onChange={handleDeliveryVendor}*/}
-                {/*            >*/}
-                {/*                <MenuItem value={10}>Ten</MenuItem>*/}
-                {/*                <MenuItem value={20}>Twenty</MenuItem>*/}
-                {/*                <MenuItem value={30}>Thirty</MenuItem>*/}
-                {/*            </Select>*/}
-                {/*        </FormControl>*/}
-                {/*    </Grid>*/}
 
-                {/*    /!*<Grid xs={12} item={true}>*!/*/}
-                {/*    /!*    <FormGroup>*!/*/}
-                {/*    /!*        <FormControlLabel*!/*/}
-                {/*    /!*            control={*!/*/}
-                {/*    /!*                <Checkbox*!/*/}
-                {/*    /!*                    defaultChecked={isSaveAddress}*!/*/}
-                {/*    /!*                    onChange={handSaveAddress}*!/*/}
-                {/*    /!*                />*!/*/}
-                {/*    /!*            }*!/*/}
-                {/*    /!*            label="บันทึกที่อยู่"*!/*/}
-                {/*    /!*        />*!/*/}
-                {/*    /!*        <FormControlLabel*!/*/}
-                {/*    /!*            control={*!/*/}
-                {/*    /!*                <Checkbox*!/*/}
-                {/*    /!*                    defaultChecked={isSaveAddress}*!/*/}
-                {/*    /!*                    onChange={handleCOD}*!/*/}
-                {/*    /!*                />*!/*/}
-                {/*    /!*            }*!/*/}
-                {/*    /!*            label="เก็บเงินปลายทาง"*!/*/}
-                {/*    /!*        />*!/*/}
-                {/*    /!*    </FormGroup>*!/*/}
-                {/*    /!*</Grid>*!/*/}
+                                            edge="end"
+                                        >
+                                            {/*<SearchIcon/>*/}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Password"
+                            />
+                        </FormControl>
+                    </Grid>
 
-                {/*</Grid>*/}
+                    <Grid item={true} xs={12} sm={6} md={4}>
+                        <TextField size={"small"} fullWidth={true}
+                                   error={!!errors.receive?.firstname?.message}
+                                   id="rfirstname"
+                                   label="ชื่อ"
+                                   {...register("receive.firstname", {
+                                       required: {
+                                           value: true,
+                                           message: "กรุณาใส่ชื่อ"
+                                       }
+                                   })}
+                                   helperText={errors.receive?.firstname?.message}
+
+                        />
+                    </Grid>
+                    <Grid item={true} xs={12} sm={6} md={4}>
+                        <TextField size={"small"} fullWidth={true}
+                                   error={!!errors.receive?.lastname?.message}
+                                   id="rlastName"
+                                   label="นามสกุล"
+                                   {...register("receive.lastname", {
+                                       required: {
+                                           value: true,
+                                           message: "กรุณาใส่นามสกุล"
+                                       }
+                                   })}
+                                   helperText={errors.receive?.lastname?.message}
+                        />
+                    </Grid>
+                    <Grid item={true} xs={12} sm={12} md={4}>
+                        <TextField size={"small"} fullWidth={true}
+                                   error={!!errors.receive?.phoneNo?.message}
+                                   id="rphoneNo"
+                                   label="หมายเลขโทรศัพท์"
+                                   {...register("receive.phoneNo", {
+                                       required: {
+                                           value: true,
+                                           message: "กรุณาใส่หมายเลขโทรศัพท์"
+                                       },
+                                       pattern: {
+                                           value: /^\d{10}$/,
+                                           message: "ใส่หมายเลขโทรศัพท์ให้ถูกต้องความยาว 10 ตัวเลข"
+                                       }
+                                   })}
+                                   helperText={errors.receive?.phoneNo?.message}
+                        />
+                    </Grid>
+                    <Grid item={true} xs={12} md={12}>
+                        <TextField size={"small"} fullWidth={true}
+                                   id="raddress"
+                                   label="ที่อยู่"
+                                   {...register("receive.addressText", {
+                                       required: {
+                                           value: true,
+                                           message: "กรุณาใส่ที่อยู่"
+                                       }
+                                   })}
+                                   error={!!errors.receive?.addressText?.message}
+                                   helperText={errors.receive?.addressText?.message}
+
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Controller
+                            name="receive.province"
+                            control={control}
+                            rules={{required: "กรุณาใส่จังหวัด"}} // Add validation rules as needed
+                            render={({field: {onChange, value}, fieldState: {error}}) => (
+                                <Autocomplete
+                                    size="small"
+                                    id="rจังหวัด"
+                                    options={receiveProvince}
+                                    getOptionLabel={(option) => option.thaiName}
+                                    value={value || null}
+                                    onChange={(event, newValue) => {
+                                        onChange(newValue); // Inform react-hook-form of the change
+                                        setReceiveDistrict([]);
+                                        setReceiveSubDistrict([]);
+                                        setReceivePostalCode([]);
+                                        // Reset related fields in react-hook-form as needed
+                                        form.setValue("receive.district", null);
+                                        form.setValue("receive.subDistrict", null);
+                                        form.setValue("receive.postalCode", null);
+                                    }}
+                                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="จังหวัด"
+                                            error={!!error}
+                                            helperText={error ? error.message : null}
+                                        />
+                                    )}
+                                />
+                            )}
+                        />
+                    </Grid>
+
+                    <Grid item={true} xs={12} sm={6} md={3}>
+                        <Controller
+                            name="receive.district"
+                            control={control}
+                            rules={{required: "กรุณาใส่อำเภอ"}} // Add validation rules as needed
+                            render={({field: {onChange, value}, fieldState: {error}}) => (
+                                <Autocomplete
+                                    size="small"
+                                    id="rอำเภอ"
+                                    options={receiveDistrict}
+                                    getOptionLabel={(option) => option.thaiName}
+                                    value={value || null}
+                                    onChange={(event, newValue) => {
+                                        onChange(newValue); // Inform react-hook-form of the change
+
+                                        if (newValue) {
+
+                                            const subDistricts = newValue.subDistricts;
+
+                                            if (subDistricts) {
+                                                setReceiveSubDistrict(subDistricts);
+                                            } else {
+                                                setReceiveSubDistrict([]);
+                                                setReceivePostalCode([]);
+                                                // Reset related fields in react-hook-form as needed
+                                                form.setValue("receive.subDistrict", null);
+                                                form.setValue("receive.postalCode", null);
+                                            }
+                                        }
+
+                                    }}
+                                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="อำเภอ"
+                                            error={!!error}
+                                            helperText={error ? error.message : null}
+                                        />
+                                    )}
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item={true} xs={12} sm={6} md={3}>
+                        <Controller
+                            name="receive.subDistrict"
+                            control={control}
+                            rules={{required: "กรุณาใส่ตำบล"}} // Add validation rules as needed
+                            render={({field: {onChange, value}, fieldState: {error}}) => (
+                                <Autocomplete
+                                    size="small"
+                                    id="rsubdistrict"
+                                    options={receiveSubDistrict}
+                                    getOptionLabel={(option) => option.thaiName}
+                                    value={value || null}
+                                    onChange={(event, newValue) => {
+                                        onChange(newValue); // Inform react-hook-form of the change
+
+                                        if (newValue) {
+
+                                            const postalCodes = newValue.postalCodes;
+
+                                            if (postalCodes) {
+                                                setReceivePostalCode(postalCodes);
+                                            } else {
+                                                setReceivePostalCode([]);
+                                                // Reset related fields in react-hook-form as needed
+                                                form.setValue("sender.postalCode", null);
+                                            }
+                                        }
+
+                                    }}
+                                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="ตำบล"
+                                            error={!!error}
+                                            helperText={error ? error.message : null}
+                                        />
+                                    )}
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item={true} xs={12} sm={6} md={3}>
+                        <Controller
+                            name="receive.postalCode"
+                            control={control}
+                            rules={{required: "กรุณาใส่รหัสไปรษณีย์"}} // Add validation rules as needed
+                            render={({field: {onChange, value}, fieldState: {error}}) => (
+                                <Autocomplete
+                                    size="small"
+                                    id="rpostalCode"
+                                    options={receivePostalCode}
+                                    getOptionLabel={(option) => option.code}
+                                    value={value || null}
+                                    onChange={(event, newValue) => {
+                                        onChange(newValue); // Inform react-hook-form of the change
+
+                                    }}
+                                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="ไปรษณีย์"
+                                            error={!!error}
+                                            helperText={error ? error.message : null}
+                                        />
+                                    )}
+                                />
+                            )}
+                        />
+                    </Grid>
+
+
+                    <Grid xs={12} item={true}>
+                        <Controller
+                            name="receive.saveAddress"
+                            control={control}
+                            defaultValue={true} // Default value for the checkbox
+                            render={({field}) => (
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                {...field} // Spread field props to Checkbox
+                                                checked={field.value} // Use field.value for Checkbox's checked state
+                                                onChange={(e) => field.onChange(e.target.checked)} // Update form value on change
+                                            />
+                                        }
+                                        label="บันทึกที่อยู่" // Your label text here
+                                    />
+                                </FormGroup>
+                            )}
+                        />
+                    </Grid>
+
+                    <Grid xs={12} item={true}>
+                        <Controller
+                            name="receive.cod"
+                            control={control}
+                            defaultValue={false} // Default value for the checkbox
+                            render={({field}) => (
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                {...field} // Spread field props to Checkbox
+                                                checked={field.value} // Use field.value for Checkbox's checked state
+                                                onChange={(e) => field.onChange(e.target.checked)} // Update form value on change
+                                            />
+                                        }
+                                        label="เก็บเงินปลายทาง" // Your label text here
+                                    />
+                                </FormGroup>
+                            )}
+                        />
+                    </Grid>
+                </Grid>
+
+
                 <DevTool control={control}></DevTool>
-                <button type="submit">Submit</button>
+                <Grid item={true} xs={12}>
+                    <Button variant="outlined" type={"submit"}>ตกลง</Button>
+                </Grid>
+
+
             </form>
         </>
     );
