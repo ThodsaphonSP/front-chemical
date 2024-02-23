@@ -23,7 +23,7 @@ import {AxiosError, AxiosResponse} from "axios";
 import {Controller, useFieldArray, useForm} from "react-hook-form";
 import {DevTool} from "@hookform/devtools";
 import {GetProduct, Product} from "../../Services/productAPI";
-import {registerAccount, UserRegistrationRequest} from "../../Services/RoleAPI";
+
 import {CreateParcel} from "../../Services/ParcelAPI";
 import {useNavigate} from "react-router-dom";
 
@@ -31,6 +31,22 @@ export type productQuantity = {
     product: Product | null,
     quantity: number
 }
+
+export type receive = {
+    firstname: string,
+        lastname: string,
+    phoneNo: string,
+    addressText: string,
+    province: Province | null,
+    district: District | null,
+    subDistrict: SubDistrict | null,
+    postalCode: PostalCode | null,
+    vendorDelivery: VendorDelivery | null,
+    saveAddress:boolean,
+    cod:boolean
+}
+
+
 
 export type ParcelForm = {
     sender: {
@@ -49,19 +65,7 @@ export type ParcelForm = {
         saveAddress: boolean
 
     }
-    receive: {
-        firstname: string,
-        lastname: string,
-        phoneNo: string,
-        addressText: string,
-        province: Province | null,
-        district: District | null,
-        subDistrict: SubDistrict | null,
-        postalCode: PostalCode | null,
-        vendorDelivery: VendorDelivery | null,
-        saveAddress:boolean,
-        cod:boolean
-    }
+    receive: receive
 }
 
 
