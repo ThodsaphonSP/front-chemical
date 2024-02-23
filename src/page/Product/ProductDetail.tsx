@@ -17,6 +17,21 @@ import {GetCategory, Category} from "../../Services/CategoryAPI";
 import {GetUnit, UnitOfMeasurement} from "../../Services/UnitOfMeasurementAPI";
 import axios from "axios";
 
+export interface Product {
+    name: string,
+    code: string,
+    detail: string,
+    standardPrice: number | null,
+    multiplier: number | null,
+    quantity: number | null,
+    price: number | null,
+    isActive: boolean,
+    categoryId: any,
+    substituteProductId: any,
+    unitOfMeasurementId: any
+}
+
+
 export function ProductDetail() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [units, setUnits] = useState<UnitOfMeasurement[]>([])
@@ -44,14 +59,14 @@ export function ProductDetail() {
         fetchUnit();
     }, []);
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<Product>({
         name: '',
         code: '',
         detail: '',
-        standardPrice: '',
-        multiplier: '',
-        quantity: '',
-        price: '',
+        standardPrice: null,
+        multiplier: null,
+        quantity: null,
+        price: null,
         isActive: true,
         categoryId: '',
         substituteProductId: "",
@@ -70,23 +85,23 @@ export function ProductDetail() {
     })
     //---------------------------------------------------------------------------------------------
 
-//Forms handle changing
+    //Forms handle changing
     const clearTextFields = () => {
         setFormData({
             name: '',
             code: '',
             detail: '',
-            standardPrice: '',
-            multiplier: '',
-            quantity: '',
-            price: '',
+            standardPrice: null,
+            multiplier: null,
+            quantity: null,
+            price: null,
             isActive: false,
             categoryId: '',
             substituteProductId: '',
             unitOfMeasurementId: ''
         });
     }
-//Form changing on textfields
+    //Form changing on textfields
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -108,32 +123,32 @@ export function ProductDetail() {
     const handleChangeStandardPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
-            standardPrice: event.target.value
+            standardPrice: parseFloat(event.target.value) || null
         }));
     };
     const handleChangeMultiplier = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
-            multiplier: event.target.value
+            multiplier: parseFloat(event.target.value) || null
         }));
     };
     const handleChangeQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
-            quantity: event.target.value
+            quantity: parseFloat(event.target.value) || null
         }));
     };
     const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevFormData) => ({
             ...prevFormData,
-            price: event.target.value
+            price: parseFloat(event.target.value) || null
         }));
     };
     const handleChangeIsActive = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value)
         setFormData((prevFormData) => ({
             ...prevFormData,
-            isActive: event.target.value === "1" // Convert "1" to true, "0" to false
+            isActive: event.target.value === "1"
         }));
     };
 
@@ -176,25 +191,25 @@ export function ProductDetail() {
                 detail: true
             }));
         }
-        if (formData.standardPrice === '') {
+        if (formData.standardPrice === null) {
             setFormDataError((prevFormDataError) => ({
                 ...prevFormDataError,
                 standardPrice: true
             }));
         }
-        if (formData.multiplier === '') {
+        if (formData.multiplier === null) {
             setFormDataError((prevFormDataError) => ({
                 ...prevFormDataError,
                 multiplier: true
             }));
         }
-        if (formData.quantity === '') {
+        if (formData.quantity === null) {
             setFormDataError((prevFormDataError) => ({
                 ...prevFormDataError,
                 quantity: true
             }));
         }
-        if (formData.price === '') {
+        if (formData.price === null) {
             setFormDataError((prevFormDataError) => ({
                 ...prevFormDataError,
                 price: true
