@@ -36,7 +36,7 @@ export type productQuantity = {
 
 export type receive = {
     firstname: string,
-        lastname: string,
+    lastname: string,
     phoneNo: string,
     addressText: string,
     province: Province | null,
@@ -44,10 +44,9 @@ export type receive = {
     subDistrict: SubDistrict | null,
     postalCode: PostalCode | null,
     vendorDelivery: VendorDelivery | null,
-    saveAddress:boolean,
-    cod:boolean
+    saveAddress: boolean,
+    cod: boolean
 }
-
 
 
 export type ParcelForm = {
@@ -89,6 +88,12 @@ export function Create() {
                 selectProduct: [{
                     indexNumber: null
                 }]
+            },
+            receive: {
+                firstname: "",
+                lastname:"",
+                addressText:"",
+                phoneNo:""
             }
         }
     });
@@ -139,6 +144,7 @@ export function Create() {
         }
         const response = await GetReceiverDetail(number); // Assume provinceValue contains the province object
         const data: receive = response.data;
+        form.setValue("receive", data)
 
     };
 
@@ -661,66 +667,81 @@ export function Create() {
                     </Grid>
 
                     <Grid item={true} xs={12} sm={6} md={4}>
-                        <TextField size={"small"} fullWidth={true}
-                                   error={!!errors.receive?.firstname?.message}
-                                   id="rfirstname"
-                                   label="ชื่อ"
-                                   {...register("receive.firstname", {
-                                       required: {
-                                           value: true,
-                                           message: "กรุณาใส่ชื่อ"
-                                       }
-                                   })}
-                                   helperText={errors.receive?.firstname?.message}
-
+                        <Controller
+                            name="receive.firstname"
+                            control={control}
+                            rules={{ required: "กรุณาใส่ชื่อ" }}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    size="small"
+                                    fullWidth
+                                    label="ชื่อ"
+                                    error={!!errors.receive?.firstname}
+                                    helperText={errors.receive?.firstname?.message}
+                                />
+                            )}
                         />
                     </Grid>
                     <Grid item={true} xs={12} sm={6} md={4}>
-                        <TextField size={"small"} fullWidth={true}
-                                   error={!!errors.receive?.lastname?.message}
-                                   id="rlastName"
-                                   label="นามสกุล"
-                                   {...register("receive.lastname", {
-                                       required: {
-                                           value: true,
-                                           message: "กรุณาใส่นามสกุล"
-                                       }
-                                   })}
-                                   helperText={errors.receive?.lastname?.message}
+                        <Controller
+                            name="receive.lastname"
+                            control={control}
+                            rules={{ required: "กรุณาใส่นามสกุล" }}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    size="small"
+                                    fullWidth
+                                    label="นามสกุล"
+                                    error={!!errors.receive?.lastname}
+                                    helperText={errors.receive?.lastname?.message}
+                                />
+                            )}
                         />
                     </Grid>
                     <Grid item={true} xs={12} sm={12} md={4}>
-                        <TextField size={"small"} fullWidth={true}
-                                   error={!!errors.receive?.phoneNo?.message}
-                                   id="rphoneNo"
-                                   label="หมายเลขโทรศัพท์"
-                                   {...register("receive.phoneNo", {
-                                       required: {
-                                           value: true,
-                                           message: "กรุณาใส่หมายเลขโทรศัพท์"
-                                       },
-                                       pattern: {
-                                           value: /^\d{10}$/,
-                                           message: "ใส่หมายเลขโทรศัพท์ให้ถูกต้องความยาว 10 ตัวเลข"
-                                       }
-                                   })}
-                                   helperText={errors.receive?.phoneNo?.message}
+                        <Controller
+                            name="receive.phoneNo"
+                            control={control}
+                            rules={{
+                                required: {
+                                    value: true,
+                                    message: "กรุณาใส่หมายเลขโทรศัพท์"
+                                },
+                                pattern: {
+                                    value: /^\d{10}$/,
+                                    message: "ใส่หมายเลขโทรศัพท์ให้ถูกต้องความยาว 10 ตัวเลข"
+                                }}}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    size="small"
+                                    fullWidth
+                                    label="หมายเลขโทรศัพท์"
+                                    error={!!errors.receive?.phoneNo}
+                                    helperText={errors.receive?.phoneNo?.message}
+                                />
+                            )}
                         />
                     </Grid>
                     <Grid item={true} xs={12} md={12}>
-                        <TextField size={"small"} fullWidth={true}
-                                   id="raddress"
-                                   label="ที่อยู่"
-                                   {...register("receive.addressText", {
-                                       required: {
-                                           value: true,
-                                           message: "กรุณาใส่ที่อยู่"
-                                       }
-                                   })}
-                                   error={!!errors.receive?.addressText?.message}
-                                   helperText={errors.receive?.addressText?.message}
-
+                        <Controller
+                            name="receive.addressText"
+                            control={control}
+                            rules={{ required: "กรุณาใส่ที่อยู่" }}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    size="small"
+                                    fullWidth
+                                    label="ที่อยู่"
+                                    error={!!errors.receive?.addressText}
+                                    helperText={errors.receive?.addressText?.message}
+                                />
+                            )}
                         />
+
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <Controller
