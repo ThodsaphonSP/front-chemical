@@ -144,7 +144,41 @@ export function Create() {
         }
         const response = await GetReceiverDetail(number); // Assume provinceValue contains the province object
         const data: receive = response.data;
-        form.setValue("receive", data)
+
+        if (data.province){
+            setReceiveProvince([new Province(),data.province])
+        }else{
+            return
+        }
+
+        if (data.district){
+            setReceiveDistrict([data.district])
+        }else{
+            return
+        }
+
+        if (data.subDistrict){
+            setReceiveSubDistrict([data.subDistrict])
+        }else{
+            return
+        }
+
+        if (data.postalCode){
+            setReceivePostalCode([data.postalCode])
+        }else {
+            return;
+        }
+
+        //deep merge
+        form.reset({
+            receive: data
+        }, {
+            keepDefaultValues: true
+        });
+
+        // shallow merge
+        //  form.setValue("receive", data,{shouldDirty:true,shouldTouch:true,shouldValidate:true})
+        // form.setValue("receive.province",data.province);
 
     };
 
