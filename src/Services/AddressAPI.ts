@@ -1,5 +1,6 @@
 import {api} from "./RoleAPI";
 import {AxiosResponse} from "axios";
+import {receive} from "../page/Parcel/Create";
 
 export class PostalCode {
     id: number;
@@ -81,5 +82,12 @@ export class VendorDelivery{
 export const GetVendorList = async (): Promise<AxiosResponse<VendorDelivery[]>> => {
     const url = `/api/VendorDelivery`;
     const response: AxiosResponse<VendorDelivery[]> = await api.get<VendorDelivery[]>(url);
+    return response;
+};
+
+
+export const GetReceiverDetail = async (phoneNumber: string|undefined): Promise<AxiosResponse<receive>> => {
+    const url = `api/Customer?phone=${phoneNumber}`;
+    const response: AxiosResponse<receive> = await api.get<receive>(url);
     return response;
 };
