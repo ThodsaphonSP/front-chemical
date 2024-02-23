@@ -5,6 +5,8 @@ import {
     Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField,
     Typography
 } from "@mui/material";
+
+import SearchIcon from '@mui/icons-material/Search';
 import React, {useEffect, useState} from "react";
 import {red} from '@mui/material/colors';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -12,7 +14,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
     District,
     GetDistrict,
-    GetProvince,
+    GetProvince, GetReceiverDetail,
     GetVendorList,
     PostalCode,
     Province,
@@ -120,7 +122,6 @@ export function Create() {
     const [senderPostalCode, setSenderPostalCode] = useState<PostalCode[]>([]);
 
 
-
     const [receiveProvince, setReceiveProvince] = useState<Province[]>([])
 
 
@@ -130,8 +131,16 @@ export function Create() {
     const [receivePostalCode, setReceivePostalCode] = useState<PostalCode[]>([]);
 
 
+    const searchUser = async (number: string | undefined) => {
 
+        if (!number) {
+            alert("กรุณาใส่เบอร์โทร")
+            return
+        }
+        const response = await GetReceiverDetail(number); // Assume provinceValue contains the province object
+        const data: receive = response.data;
 
+    };
 
 
     const fetchVendorDelivery = async (): Promise<void> => {
@@ -184,11 +193,6 @@ export function Create() {
     };
 
 
-
-
-
-
-
     useEffect(() => {
 
         const fetchSenderDisctrict = async (): Promise<void> => {
@@ -233,12 +237,14 @@ export function Create() {
 
     }, [])
 
+    const [searchNumberValue, setSearchNumberValue] = useState<string>("");
+
     const onSubmit = (data: ParcelForm) => {
         console.log("Form submitted", data)
-         workOnsubmit(data);
+        workOnsubmit(data);
     }
 
-    const workOnsubmit = async ( formValue:ParcelForm ) => {
+    const workOnsubmit = async (formValue: ParcelForm) => {
         //create
         try {
             const response = await CreateParcel(formValue);
@@ -634,15 +640,18 @@ export function Create() {
                             <OutlinedInput
                                 id="phoneNumber"
                                 type={'tel'}
+                                value={searchNumberValue}
+                                onChange={(event) => setSearchNumberValue(event.target.value)}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
+                                            onClick={() => searchUser(searchNumberValue)}
                                             aria-label="toggle password visibility"
 
 
                                             edge="end"
                                         >
-                                            {/*<SearchIcon/>*/}
+                                            <SearchIcon/>
                                         </IconButton>
                                     </InputAdornment>
                                 }
