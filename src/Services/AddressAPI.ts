@@ -52,7 +52,7 @@ export class Postal {
 
 export class Province {
     id: number = 0; // Directly setting the initial value
-    thaiName: string = "default"; // Directly setting the initial value
+    thaiName: string = "--เลือก--"; // Directly setting the initial value
 }
 
 export const GetPostal = async (subDistrictId: string): Promise<AxiosResponse<District[]>> => {
