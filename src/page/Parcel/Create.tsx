@@ -28,6 +28,7 @@ import {GetProduct, Product} from "../../Services/productAPI";
 
 import {CreateParcel} from "../../Services/ParcelAPI";
 import {useNavigate} from "react-router-dom";
+import {ParcelTable} from "./ParcelTable";
 
 export type productQuantity = {
     product: Product | null,
@@ -1005,6 +1006,7 @@ export function Create() {
 
 
             </form>
+            <ParcelTable></ParcelTable>
         </>
     );
 }
