@@ -10,7 +10,16 @@ import {
     Radio,
     RadioGroup,
     FormControlLabel,
-    FormLabel, SelectChangeEvent, TableBody, TableRow, TableCell, TableContainer, Paper, Table, TableHead,
+    FormLabel,
+    SelectChangeEvent,
+    TableBody,
+    TableRow,
+    TableCell,
+    TableContainer,
+    Paper,
+    Table,
+    TableHead,
+    TablePagination, Typography,
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {GetCategory, Category} from "../../Services/CategoryAPI";
@@ -37,7 +46,10 @@ export function ProductDetail() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [units, setUnits] = useState<UnitOfMeasurement[]>([]);
     const [products, setProducts] = useState<Product[]>([]); // เปลี่ยนตัวแปร formData เป็น products
-    const headCol = ['Name', 'Code', 'Detail0', 'Standard Price', 'Multiplier', 'quantity', 'Price', 'Status', 'Category ID', 'SubtituteProduct ID', 'Unit of measurement ID']
+    const headCol = ['Name', 'Code', 'Detail0', 'Standard Price', 'Multiplier', 'quantity', 'Price', 'Status', 'Category ID', 'SubtituteProduct ID', 'Unit of measurement ID'];
+    const pages = [5, 10, 25];
+    const [page, setPage] = useState(0);
+    const [rowPerPage, setRowPerPage] = useState(pages[page])
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -191,6 +203,13 @@ export function ProductDetail() {
         }));
     }
 
+    const handleChagePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+        setPage(newPage);
+    }
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowPerPage(parseInt(event.target.value, 10))
+    }
     //handle save button
     const handleSave = async () => {
         let formErrors = {
@@ -239,11 +258,13 @@ export function ProductDetail() {
     };
 
     return (
-        <BaseContainer>
-            <h3>Product Details</h3>
-            <form onSubmit={handleSave}>
-                <Grid container spacing={1}>
-                    <Grid item xs={6}>
+        <div>
+            <BaseContainer>
+                <Grid container rowSpacing={1} columnSpacing={1} component="form" onSubmit={handleSave}>
+                    <Grid item xs={12}>
+                        <Typography variant="h6">Product Details</Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             label="Name"
                             variant="outlined"
@@ -256,7 +277,7 @@ export function ProductDetail() {
                             required
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             label="Code"
                             variant="outlined"
@@ -269,7 +290,7 @@ export function ProductDetail() {
                             required
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             label="Detail"
                             variant="outlined"
@@ -282,7 +303,7 @@ export function ProductDetail() {
                             required
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                         <TextField
                             label="Standard Price"
                             variant="outlined"
@@ -295,7 +316,7 @@ export function ProductDetail() {
                             required
                         />
                     </Grid>
-                    <Grid item xs={6}> <TextField
+                    <Grid item xs={12} md={6}> <TextField
                         label="Multiplier"
                         variant="outlined"
                         size="small"
@@ -306,7 +327,7 @@ export function ProductDetail() {
                         fullWidth
                         required
                     /></Grid>
-                    <Grid item xs={6}> <TextField
+                    <Grid item xs={12} md={6}> <TextField
                         label="Quantity"
                         variant="outlined"
                         size="small"
@@ -317,7 +338,7 @@ export function ProductDetail() {
                         fullWidth
                         required
                     /></Grid>
-                    <Grid item xs={6}> <TextField
+                    <Grid item xs={12} md={6}> <TextField
                         label="Price"
                         variant="outlined"
                         size="small"
@@ -328,7 +349,7 @@ export function ProductDetail() {
                         fullWidth
                         required
                     /></Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} md={6}>
                         <FormControl>
                             <FormLabel id="demo-radio-buttons-group-label"></FormLabel>
                             <RadioGroup row value={productFormData.isActive ? "1" : "0"}
@@ -338,7 +359,7 @@ export function ProductDetail() {
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                         <FormControl size="small" fullWidth>
                             <InputLabel id="demo-select-small-label">Category ID</InputLabel>
                             <Select
@@ -357,7 +378,7 @@ export function ProductDetail() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={4}><FormControl size="small" fullWidth>
+                    <Grid item xs={12} md={4}><FormControl size="small" fullWidth>
                         <InputLabel id="demo-select-small-label">Substitute Product ID</InputLabel>
                         <Select
 
@@ -372,7 +393,7 @@ export function ProductDetail() {
                             </MenuItem>
                         </Select>
                     </FormControl></Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                         <FormControl size="small" fullWidth>
                             <InputLabel id="demo-select-small-label">Unit of measurement ID</InputLabel>
                             <Select
@@ -410,42 +431,55 @@ export function ProductDetail() {
                             >รีเซ็ท</Button>
                         </Grid>
                     </Grid>
+                    <Grid item xs={12} md={12}>
+                        <TableContainer component={Paper} style={{marginTop: "10px"}}>
+                            <Table sx={{minWidth: 650}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell align="right">Code</TableCell>
+                                        <TableCell align="right">Detail</TableCell>
+                                        <TableCell align="right">Standard Price</TableCell>
+                                        <TableCell align="right">Multiplier</TableCell>
+                                        <TableCell align="right">Quantity</TableCell>
+                                        <TableCell align="right">Price</TableCell>
+                                        <TableCell align="right">Status</TableCell>
+                                        <TableCell align="right">Category ID</TableCell>
+                                        <TableCell align="right">SubstituteProduct ID</TableCell>
+                                        <TableCell align="right">Unit of measurement ID</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {products.map((item, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>{item.name}</TableCell>
+                                            <TableCell align="right">{item.code}</TableCell>
+                                            <TableCell align="right">{item.detail}</TableCell>
+                                            <TableCell align="right">{item.standardPrice}</TableCell>
+                                            <TableCell align="right">{item.multiplier}</TableCell>
+                                            <TableCell align="right">{item.quantity}</TableCell>
+                                            <TableCell align="right">{item.price}</TableCell>
+                                            <TableCell align="right">{item.isActive ? "Active" : "Inactive"}</TableCell>
+                                            <TableCell align="right">{item.categoryId}</TableCell>
+                                            <TableCell align="right">{item.substituteProductId}</TableCell>
+                                            <TableCell align="right">{item.unitOfMeasurementId}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={pages}
+                            component="div"
+                            count={products.length}
+                            page={page}
+                            rowsPerPage={rowPerPage}
+                            onPageChange={handleChagePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Grid>
                 </Grid>
-            </form>
-            <TableContainer component={Paper} style={{marginTop: "10px"}}>
-                <Table aria-label="simple table">
-                    <TableHead>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Code</TableCell>
-                        <TableCell>Detail</TableCell>
-                        <TableCell>Standard Price</TableCell>
-                        <TableCell>Multiplier</TableCell>
-                        <TableCell>Quantity</TableCell>
-                        <TableCell>Price</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>Category ID</TableCell>
-                        <TableCell>SubtituteProduct ID</TableCell>
-                        <TableCell>Unit of measurement ID</TableCell>
-                    </TableHead>
-                    <TableBody>
-                        {products.map((item, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{item.name}</TableCell>
-                                <TableCell>{item.code}</TableCell>
-                                <TableCell>{item.detail}</TableCell>
-                                <TableCell>{item.standardPrice}</TableCell>
-                                <TableCell>{item.multiplier}</TableCell>
-                                <TableCell>{item.quantity}</TableCell>
-                                <TableCell>{item.price}</TableCell>
-                                <TableCell>{item.isActive ? "Active" : "Inactive"}</TableCell>
-                                <TableCell>{item.categoryId}</TableCell>
-                                <TableCell>{item.substituteProductId}</TableCell>
-                                <TableCell>{item.unitOfMeasurementId}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </BaseContainer>
+            </BaseContainer>
+        </div>
     );
 }
