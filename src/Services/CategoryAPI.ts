@@ -14,7 +14,6 @@ export interface Category {
     isActive: boolean;
 }
 
-
 export const GetCategory = async (): Promise<AxiosResponse<Category[]>> => {
     const url = `/api/Category`;
     const response: AxiosResponse<Category[]> = await api.get<Category[]>(url);

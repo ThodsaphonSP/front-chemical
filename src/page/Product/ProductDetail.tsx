@@ -10,14 +10,15 @@ import {
     Radio,
     RadioGroup,
     FormControlLabel,
-    FormLabel, SelectChangeEvent,
+    FormLabel, SelectChangeEvent, TableBody, TableRow, TableCell, TableContainer, Paper, Table, TableHead,
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {GetCategory, Category} from "../../Services/CategoryAPI";
 import {GetUnit, UnitOfMeasurement} from "../../Services/UnitOfMeasurementAPI";
-import axios from "axios";
+import {GetProduct, Product} from "../../Services/productAPI";
+import {CreateProduct} from "../../Services/PostProduct";
 
-export interface Product {
+export interface ProductData {
     name: string,
     code: string,
     detail: string,
@@ -31,18 +32,29 @@ export interface Product {
     unitOfMeasurementId: any
 }
 
-
 export function ProductDetail() {
+
     const [categories, setCategories] = useState<Category[]>([]);
-    const [units, setUnits] = useState<UnitOfMeasurement[]>([])
+    const [units, setUnits] = useState<UnitOfMeasurement[]>([]);
+    const [products, setProducts] = useState<Product[]>([]); // เปลี่ยนตัวแปร formData เป็น products
+    const headCol = ['Name', 'Code', 'Detail0', 'Standard Price', 'Multiplier', 'quantity', 'Price', 'Status', 'Category ID', 'SubtituteProduct ID', 'Unit of measurement ID']
+
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await GetCategory();
-                // @ts-ignore
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);
+            }
+        };
+
+        const fetchData = async () => {
+            try {
+                const response = await GetProduct();
+                setProducts(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
             }
         };
 
@@ -51,15 +63,16 @@ export function ProductDetail() {
                 const response = await GetUnit();
                 setUnits(response.data);
             } catch (error) {
-                console.log('Error fetching ')
+                console.log('Error fetching units:', error);
             }
+        };
 
-        }
         fetchCategories();
+        fetchData();
         fetchUnit();
     }, []);
 
-    const [formData, setFormData] = useState<Product>({
+    const [productFormData, setProductFormData] = useState<ProductData>({
         name: '',
         code: '',
         detail: '',
@@ -71,7 +84,7 @@ export function ProductDetail() {
         categoryId: '',
         substituteProductId: "",
         unitOfMeasurementId: ""
-    })
+    });
 
     const [formDataError, setFormDataError] = useState({
         name: false,
@@ -81,13 +94,11 @@ export function ProductDetail() {
         multiplier: false,
         quantity: false,
         price: false,
-        isActive: false,
     })
-    //---------------------------------------------------------------------------------------------
 
     //Forms handle changing
     const clearTextFields = () => {
-        setFormData({
+        setProductFormData({
             name: '',
             code: '',
             detail: '',
@@ -103,117 +114,127 @@ export function ProductDetail() {
     }
     //Form changing on textfields
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             name: event.target.value
         }));
     };
+
     const handleChangeCode = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             code: event.target.value
         }));
     };
+
     const handleChangeDetail = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             detail: event.target.value
         }));
     };
+
     const handleChangeStandardPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             standardPrice: parseFloat(event.target.value) || null
         }));
     };
+
     const handleChangeMultiplier = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             multiplier: parseFloat(event.target.value) || null
         }));
     };
+
     const handleChangeQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             quantity: parseFloat(event.target.value) || null
         }));
     };
+
     const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             price: parseFloat(event.target.value) || null
         }));
     };
+
     const handleChangeIsActive = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value)
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             isActive: event.target.value === "1"
         }));
     };
 
     const handleChangeCategoryIdChange = (event: SelectChangeEvent<string>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             categoryId: event.target.value
         }));
     };
+
     const handleChangeSubstituteProductId = (event: SelectChangeEvent<string>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             substituteProductId: event.target.value
         }));
     }
+
     const handleChangeUnitOfMeasurementIdChange = (event: SelectChangeEvent<string>) => {
-        setFormData((prevFormData) => ({
+        setProductFormData((prevFormData) => ({
             ...prevFormData,
             unitOfMeasurementId: event.target.value
         }));
     }
-    //----------------------------------------------------------------------------------------------------------
+
     //handle save button
-    const handleSave = () => {
-        if (formData.name === '') {
-            setFormDataError((prevFormDataError) => ({
-                ...prevFormDataError,
-                name: true
-            }));
+    const handleSave = async () => {
+        let formErrors = {
+            name: false,
+            code: false,
+            detail: false,
+            standardPrice: false,
+            multiplier: false,
+            quantity: false,
+            price: false,
+        };
+
+        if (!productFormData.name) {
+            formErrors.name = true;
         }
-        if (formData.code === '') {
-            setFormDataError((prevFormDataError) => ({
-                ...prevFormDataError,
-                code: true
-            }));
+        if (!productFormData.code) {
+            formErrors.code = true;
         }
-        if (formData.detail === '') {
-            setFormDataError((preFormDataError) => ({
-                ...preFormDataError,
-                detail: true
-            }));
+        if (!productFormData.detail) {
+            formErrors.detail = true;
         }
-        if (formData.standardPrice === null) {
-            setFormDataError((prevFormDataError) => ({
-                ...prevFormDataError,
-                standardPrice: true
-            }));
+        if (productFormData.standardPrice === null) {
+            formErrors.standardPrice = true;
         }
-        if (formData.multiplier === null) {
-            setFormDataError((prevFormDataError) => ({
-                ...prevFormDataError,
-                multiplier: true
-            }));
+        if (productFormData.multiplier === null) {
+            formErrors.multiplier = true;
         }
-        if (formData.quantity === null) {
-            setFormDataError((prevFormDataError) => ({
-                ...prevFormDataError,
-                quantity: true
-            }));
+        if (productFormData.quantity === null) {
+            formErrors.quantity = true;
         }
-        if (formData.price === null) {
-            setFormDataError((prevFormDataError) => ({
-                ...prevFormDataError,
-                price: true
-            }));
+        if (productFormData.price === null) {
+            formErrors.price = true;
+        }
+        setFormDataError(formErrors);
+        if (Object.values(formErrors).some(error => error)) {
+            return;
+        }
+        try {
+            await CreateProduct(productFormData);
+            clearTextFields();
+            const newProducts = await GetProduct();
+            setProducts(newProducts.data);
+        } catch (error) {
+            console.error("Error creating product:", error);
         }
     };
 
@@ -228,7 +249,7 @@ export function ProductDetail() {
                             variant="outlined"
                             size="small"
                             type="text"
-                            value={formData.name}
+                            value={productFormData.name}
                             error={formDataError.name}
                             onChange={handleChangeName}
                             fullWidth
@@ -241,7 +262,7 @@ export function ProductDetail() {
                             variant="outlined"
                             size="small"
                             type="text"
-                            value={formData.code}
+                            value={productFormData.code}
                             error={formDataError.code}
                             onChange={handleChangeCode}
                             fullWidth
@@ -254,7 +275,7 @@ export function ProductDetail() {
                             variant="outlined"
                             size="small"
                             type="text"
-                            value={formData.detail}
+                            value={productFormData.detail}
                             error={formDataError.detail}
                             onChange={handleChangeDetail}
                             fullWidth
@@ -267,7 +288,7 @@ export function ProductDetail() {
                             variant="outlined"
                             size="small"
                             type="number"
-                            value={formData.standardPrice}
+                            value={productFormData.standardPrice}
                             error={formDataError.standardPrice}
                             onChange={handleChangeStandardPrice}
                             fullWidth
@@ -279,7 +300,7 @@ export function ProductDetail() {
                         variant="outlined"
                         size="small"
                         type="number"
-                        value={formData.multiplier}
+                        value={productFormData.multiplier}
                         error={formDataError.multiplier}
                         onChange={handleChangeMultiplier}
                         fullWidth
@@ -290,7 +311,7 @@ export function ProductDetail() {
                         variant="outlined"
                         size="small"
                         type="number"
-                        value={formData.quantity}
+                        value={productFormData.quantity}
                         error={formDataError.quantity}
                         onChange={handleChangeQuantity}
                         fullWidth
@@ -301,7 +322,7 @@ export function ProductDetail() {
                         variant="outlined"
                         size="small"
                         type="number"
-                        value={formData.price}
+                        value={productFormData.price}
                         error={formDataError.price}
                         onChange={handleChangePrice}
                         fullWidth
@@ -310,7 +331,8 @@ export function ProductDetail() {
                     <Grid item xs={6}>
                         <FormControl>
                             <FormLabel id="demo-radio-buttons-group-label"></FormLabel>
-                            <RadioGroup row value={formData.isActive ? "1" : "0"} onChange={handleChangeIsActive}>
+                            <RadioGroup row value={productFormData.isActive ? "1" : "0"}
+                                        onChange={handleChangeIsActive}>
                                 <FormControlLabel value="1" control={<Radio/>} label="Active"/>
                                 <FormControlLabel value="0" control={<Radio/>} label="Inactive"/>
                             </RadioGroup>
@@ -322,7 +344,7 @@ export function ProductDetail() {
                             <Select
                                 labelId="demo-select-small-label"
                                 id="demo-select-small"
-                                value={formData.categoryId}
+                                value={productFormData.categoryId}
                                 label="Category ID"
                                 onChange={handleChangeCategoryIdChange}
                             >
@@ -341,7 +363,7 @@ export function ProductDetail() {
 
                             labelId="demo-select-small-label"
                             id="demo-select-small"
-                            value={formData.substituteProductId}
+                            value={productFormData.substituteProductId}
                             label="Substitute Product ID"
                             onChange={handleChangeSubstituteProductId}
                         >
@@ -357,7 +379,7 @@ export function ProductDetail() {
 
                                 labelId="demo-select-small-label"
                                 id="demo-select-small"
-                                value={formData.unitOfMeasurementId}
+                                value={productFormData.unitOfMeasurementId}
                                 label="Unit of measurement ID"
                                 onChange={handleChangeUnitOfMeasurementIdChange}
                             >
@@ -390,6 +412,40 @@ export function ProductDetail() {
                     </Grid>
                 </Grid>
             </form>
+            <TableContainer component={Paper} style={{marginTop: "10px"}}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Code</TableCell>
+                        <TableCell>Detail</TableCell>
+                        <TableCell>Standard Price</TableCell>
+                        <TableCell>Multiplier</TableCell>
+                        <TableCell>Quantity</TableCell>
+                        <TableCell>Price</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell>Category ID</TableCell>
+                        <TableCell>SubtituteProduct ID</TableCell>
+                        <TableCell>Unit of measurement ID</TableCell>
+                    </TableHead>
+                    <TableBody>
+                        {products.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{item.name}</TableCell>
+                                <TableCell>{item.code}</TableCell>
+                                <TableCell>{item.detail}</TableCell>
+                                <TableCell>{item.standardPrice}</TableCell>
+                                <TableCell>{item.multiplier}</TableCell>
+                                <TableCell>{item.quantity}</TableCell>
+                                <TableCell>{item.price}</TableCell>
+                                <TableCell>{item.isActive ? "Active" : "Inactive"}</TableCell>
+                                <TableCell>{item.categoryId}</TableCell>
+                                <TableCell>{item.substituteProductId}</TableCell>
+                                <TableCell>{item.unitOfMeasurementId}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </BaseContainer>
     );
 }
