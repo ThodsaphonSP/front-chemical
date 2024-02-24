@@ -2,7 +2,7 @@ import {
     Autocomplete,
     Button, Checkbox, FormControl, FormControlLabel,
     FormGroup,
-    Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField,
+    Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Skeleton, TextField,
     Typography
 } from "@mui/material";
 
@@ -109,6 +109,8 @@ export function Create() {
         control
     })
 
+    const [loadReceiver,setLoadReceiver]=useState<boolean>(false);
+
     const senderProvinceValue = watch("sender.province");
 
     const receiveProvinceValue = watch("receive.province");
@@ -137,6 +139,8 @@ export function Create() {
 
 
     const searchUser = async (number: string | undefined) => {
+
+        setLoadReceiver(true);
 
         if (!number) {
             alert("กรุณาใส่เบอร์โทร")
@@ -179,6 +183,8 @@ export function Create() {
         // shallow merge
         //  form.setValue("receive", data,{shouldDirty:true,shouldTouch:true,shouldValidate:true})
         // form.setValue("receive.province",data.province);
+
+        setLoadReceiver(false)
 
     };
 
@@ -701,65 +707,75 @@ export function Create() {
                     </Grid>
 
                     <Grid item={true} xs={12} sm={6} md={4}>
-                        <Controller
-                            name="receive.firstname"
-                            control={control}
-                            rules={{ required: "กรุณาใส่ชื่อ" }}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    size="small"
-                                    fullWidth
-                                    label="ชื่อ"
-                                    error={!!errors.receive?.firstname}
-                                    helperText={errors.receive?.firstname?.message}
-                                />
-                            )}
-                        />
+
+                        {loadReceiver ? (
+                            <Skeleton variant="rectangular"  height={40}/> // adjust height to match the TextField
+                        ) : (
+                            <Controller
+                                name="receive.firstname"
+                                control={control}
+                                rules={{ required: "กรุณาใส่ชื่อ" }}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        size="small"
+                                        fullWidth
+                                        label="ชื่อ"
+                                        error={!!errors.receive?.firstname}
+                                        helperText={errors.receive?.firstname?.message}
+                                    />
+                                )}
+                            />
+                        )}
                     </Grid>
                     <Grid item={true} xs={12} sm={6} md={4}>
-                        <Controller
-                            name="receive.lastname"
-                            control={control}
-                            rules={{ required: "กรุณาใส่นามสกุล" }}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    size="small"
-                                    fullWidth
-                                    label="นามสกุล"
-                                    error={!!errors.receive?.lastname}
-                                    helperText={errors.receive?.lastname?.message}
-                                />
-                            )}
-                        />
+                        {loadReceiver ? (<Skeleton variant="rectangular"  height={40}/> ):(
+                            <Controller
+                                name="receive.lastname"
+                                control={control}
+                                rules={{ required: "กรุณาใส่นามสกุล" }}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        size="small"
+                                        fullWidth
+                                        label="นามสกุล"
+                                        error={!!errors.receive?.lastname}
+                                        helperText={errors.receive?.lastname?.message}
+                                    />
+                                )}
+                            />
+                        )}
                     </Grid>
                     <Grid item={true} xs={12} sm={12} md={4}>
-                        <Controller
-                            name="receive.phoneNo"
-                            control={control}
-                            rules={{
-                                required: {
-                                    value: true,
-                                    message: "กรุณาใส่หมายเลขโทรศัพท์"
-                                },
-                                pattern: {
-                                    value: /^\d{10}$/,
-                                    message: "ใส่หมายเลขโทรศัพท์ให้ถูกต้องความยาว 10 ตัวเลข"
-                                }}}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    size="small"
-                                    fullWidth
-                                    label="หมายเลขโทรศัพท์"
-                                    error={!!errors.receive?.phoneNo}
-                                    helperText={errors.receive?.phoneNo?.message}
-                                />
-                            )}
-                        />
+                        {loadReceiver?(<Skeleton variant={"rectangular"} height={40}/> ):(
+                            <Controller
+                                name="receive.phoneNo"
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: "กรุณาใส่หมายเลขโทรศัพท์"
+                                    },
+                                    pattern: {
+                                        value: /^\d{10}$/,
+                                        message: "ใส่หมายเลขโทรศัพท์ให้ถูกต้องความยาว 10 ตัวเลข"
+                                    }}}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        size="small"
+                                        fullWidth
+                                        label="หมายเลขโทรศัพท์"
+                                        error={!!errors.receive?.phoneNo}
+                                        helperText={errors.receive?.phoneNo?.message}
+                                    />
+                                )}
+                            />
+                        )}
                     </Grid>
                     <Grid item={true} xs={12} md={12}>
+                        {loadReceiver?(<Skeleton variant={"rectangular"} height={40}/> ):(
                         <Controller
                             name="receive.addressText"
                             control={control}
@@ -774,10 +790,11 @@ export function Create() {
                                     helperText={errors.receive?.addressText?.message}
                                 />
                             )}
-                        />
+                        />)}
 
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
+                        {loadReceiver?(<Skeleton variant={"rectangular"} height={40}/> ):(
                         <Controller
                             name="receive.province"
                             control={control}
@@ -810,10 +827,11 @@ export function Create() {
                                     )}
                                 />
                             )}
-                        />
+                        />)}
                     </Grid>
 
                     <Grid item={true} xs={12} sm={6} md={3}>
+                        {loadReceiver?(<Skeleton variant={"rectangular"} height={40}/> ):(
                         <Controller
                             name="receive.district"
                             control={control}
@@ -855,9 +873,10 @@ export function Create() {
                                     )}
                                 />
                             )}
-                        />
+                        />)}
                     </Grid>
                     <Grid item={true} xs={12} sm={6} md={3}>
+                        {loadReceiver?(<Skeleton variant={"rectangular"} height={40}/> ):(
                         <Controller
                             name="receive.subDistrict"
                             control={control}
@@ -897,9 +916,10 @@ export function Create() {
                                     )}
                                 />
                             )}
-                        />
+                        />)}
                     </Grid>
                     <Grid item={true} xs={12} sm={6} md={3}>
+                        {loadReceiver?(<Skeleton variant={"rectangular"} height={40}/> ):(
                         <Controller
                             name="receive.postalCode"
                             control={control}
@@ -926,11 +946,12 @@ export function Create() {
                                     )}
                                 />
                             )}
-                        />
+                        />)}
                     </Grid>
 
 
                     <Grid xs={12} item={true}>
+                        {loadReceiver?(<Skeleton variant={"rectangular"} height={40}/> ):(
                         <Controller
                             name="receive.saveAddress"
                             control={control}
@@ -949,10 +970,11 @@ export function Create() {
                                     />
                                 </FormGroup>
                             )}
-                        />
+                        />)}
                     </Grid>
 
                     <Grid xs={12} item={true}>
+                        {loadReceiver?(<Skeleton variant={"rectangular"} height={40}/> ):(
                         <Controller
                             name="receive.cod"
                             control={control}
@@ -971,7 +993,7 @@ export function Create() {
                                     />
                                 </FormGroup>
                             )}
-                        />
+                        />)}
                     </Grid>
                 </Grid>
 
