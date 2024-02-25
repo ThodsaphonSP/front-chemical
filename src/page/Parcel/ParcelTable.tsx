@@ -104,14 +104,13 @@ export function ParcelTable() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid columnSpacing={1} justifyItems={"center"} alignContent={"center"} container={true} item={true}
-                          xs={5}>
-                        <Grid item={true} xs={5}>
-                            <TextField value={searchText} fullWidth={true} size={"small"} id="outlined-basic"
-                                       onChange={(event) => setSearchText(event.target.value)}
-                                       label="ค้นหา" variant="outlined"/>
-                        </Grid>
-                        <Grid item={true} xs={3}>
+                    <Grid item={true} xs={4} container={true} columnSpacing={1}>
+                        <Grid item={true} xs={8}>
+                        <TextField value={searchText} fullWidth={true} size={"small"} id="outlined-basic"
+                                   onChange={(event) => setSearchText(event.target.value)}
+                                   label="ชื่อ หรือ นามสกุล" variant="outlined"/>
+                    </Grid>
+                        <Grid item={true} xs={4}>
                             <Button
                                 onClick={handleSearchOnclick}
                                 fullWidth={true}
@@ -124,25 +123,9 @@ export function ParcelTable() {
                                 ค้นหา
                             </Button>
                         </Grid>
-                        <Grid item={true} xs={4}>
-                            <Button
-                                onClick={handleAddUserOnclick}
-                                fullWidth={true}
-                                variant="outlined"
-                                sx={{
-                                    backgroundColor: '#4DBCFA',
-                                    color: 'white',
-                                    '&:hover': {
-                                        backgroundColor: '#3BACD4',
-                                    },
-                                }}
-                                startIcon={<PersonAddAlt/>}
-                            >
-                                เพิ่มบัญชีผู้ใช้
-                            </Button>
-                        </Grid>
-
                     </Grid>
+
+
                 </Grid>
                 <Grid item={true} xs={12}>
                     <TableContainer component={Paper}>
@@ -282,8 +265,8 @@ const MyDoc = (props: IDoc) => {
                         {`${props.parcel.saleMan?.address?.addressDetail}`}
                     </Text>
                     <Text style={{fontFamily: 'THSarabunNew'}}>
-                        {`ตำบล ${props.parcel.saleMan?.address?.subDistrict?.thaiName} อำเภอ${props.parcel.saleMan?.address?.district?.thaiName} 
-                     จังหวัด${props.parcel.saleMan?.address?.province?.thaiName} รหัสไปรษณีย์ ${props.parcel.saleMan?.address?.postalCode?.code}`}
+                        {`ตำบล${props.parcel.saleMan?.address?.subDistrict?.thaiName} อำเภอ${props.parcel.saleMan?.address?.district?.thaiName}
+                    จังหวัด${props.parcel.saleMan?.address?.province?.thaiName} รหัสไปรษณีย์ ${props.parcel.saleMan?.address?.postalCode?.code}`}
                     </Text>
                 </View>
 
@@ -301,8 +284,8 @@ const MyDoc = (props: IDoc) => {
                             {`${props.parcel.customer?.addresses?.addressDetail}`}
                         </Text>
                         <Text style={{fontFamily: 'THSarabunNew'}}>
-                            {`ตำบล ${props.parcel.customer?.addresses?.subDistrict?.thaiName} อำเภอ${props.parcel.customer?.addresses?.district?.thaiName} 
-                      จังหวัด${props.parcel.customer?.addresses?.province?.thaiName} รหัสไปรษณีย์ ${props.parcel.customer?.addresses?.postalCode?.code}`}
+                            {`ตำบล ${props.parcel.customer?.addresses?.subDistrict?.thaiName} อำเภอ${props.parcel.customer?.addresses?.district?.thaiName}
+                    จังหวัด${props.parcel.customer?.addresses?.province?.thaiName} รหัสไปรษณีย์ ${props.parcel.customer?.addresses?.postalCode?.code}`}
                         </Text>
                     </View>
                 </View>
