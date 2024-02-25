@@ -27,7 +27,7 @@ export class User {
     lastName: string = '';
     companyId: string = '';
     company: Company = new Company();
-    addresses: Address|null = null;
+    address: Address|null = null;
     roles: UserRole[] = [new UserRole()];
 }
 

@@ -22,7 +22,7 @@ import {PersonAddAlt} from "@mui/icons-material";
 
 import {GetParcel, Parcel} from "../../Services/ParcelAPI";
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
-import {PDFDownloadLink, Document, Page, Text, Font, View, StyleSheet} from "@react-pdf/renderer";
+import {PDFDownloadLink, Document, Page, Text, Font, View} from "@react-pdf/renderer";
 
 
 
@@ -279,11 +279,11 @@ const MyDoc = (props: IDoc) => {
                         {`เบอร์โทร ${props.parcel.saleMan?.phoneNumber}`}
                     </Text>
                     <Text style={{fontFamily: 'THSarabunNew'}}>
-                        {`${props.parcel.saleMan?.addresses?.addressDetail}`}
+                        {`${props.parcel.saleMan?.address?.addressDetail}`}
                     </Text>
                     <Text style={{fontFamily: 'THSarabunNew'}}>
-                        {`ตำบล ${props.parcel.saleMan?.addresses?.subDistrict?.thaiName} อำเภอ${props.parcel.saleMan?.addresses?.district?.thaiName} 
-                     จังหวัด${props.parcel.saleMan?.addresses?.province?.thaiName} รหัสไปรษณีย์ ${props.parcel.saleMan?.addresses?.postalCode?.code}`}
+                        {`ตำบล ${props.parcel.saleMan?.address?.subDistrict?.thaiName} อำเภอ${props.parcel.saleMan?.address?.district?.thaiName} 
+                     จังหวัด${props.parcel.saleMan?.address?.province?.thaiName} รหัสไปรษณีย์ ${props.parcel.saleMan?.address?.postalCode?.code}`}
                     </Text>
                 </View>
 

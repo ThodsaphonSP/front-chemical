@@ -1,6 +1,6 @@
 import {api} from "./RoleAPI";
 import {ParcelForm} from "../page/Parcel/Create";
-import {User, UserListResponse} from "../type/User";
+import {User} from "../type/User";
 import {District, PostalCode, Province, SubDistrict, VendorDelivery} from "./AddressAPI";
 import {AxiosResponse} from "axios";
 

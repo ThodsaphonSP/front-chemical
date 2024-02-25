@@ -48,25 +48,26 @@ export type receive = {
     saveAddress: boolean,
     cod: boolean
 }
+export type sender = {
+    firstname: string,
+    lastname: string,
+    phoneNo: string,
+    addressText: string,
+    province: Province | null,
+    district: District | null,
+    subDistrict: SubDistrict | null,
+    postalCode: PostalCode | null,
+    vendorDelivery: VendorDelivery | null,
+    selectProduct: {
+        indexNumber: productQuantity | null
+    }[],
+    saveAddress: boolean
+
+}
 
 
 export type ParcelForm = {
-    sender: {
-        firstname: string,
-        lastname: string,
-        phoneNo: string,
-        addressText: string,
-        province: Province | null,
-        district: District | null,
-        subDistrict: SubDistrict | null,
-        postalCode: PostalCode | null,
-        vendorDelivery: VendorDelivery | null,
-        selectProduct: {
-            indexNumber: productQuantity | null
-        }[],
-        saveAddress: boolean
-
-    }
+    sender: sender
     receive: receive
 }
 
