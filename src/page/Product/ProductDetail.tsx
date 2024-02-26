@@ -19,7 +19,7 @@ import {
     Paper,
     Table,
     TableHead,
-    TablePagination, Typography,
+    TablePagination, Typography, TableSortLabel,
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {GetCategory, Category} from "../../Services/CategoryAPI";
@@ -46,10 +46,23 @@ export function ProductDetail() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [units, setUnits] = useState<UnitOfMeasurement[]>([]);
     const [products, setProducts] = useState<Product[]>([]); // เปลี่ยนตัวแปร formData เป็น products
-    const headCol = ['Name', 'Code', 'Detail0', 'Standard Price', 'Multiplier', 'quantity', 'Price', 'Status', 'Category ID', 'SubtituteProduct ID', 'Unit of measurement ID'];
     const pages = [5, 10, 25];
     const [page, setPage] = useState(0);
-    const [rowPerPage, setRowPerPage] = useState(pages[page])
+    const [rowPerPage, setRowPerPage] = useState(pages[page]);
+    const [order, setOrder] = useState<"asc" | "desc">('asc');
+    const [orderBy, setOrderBy] = useState('');
+    const headCells = [
+        {id: 'name', label: 'Name'},
+        {id: 'code', label: 'Code'},
+        {id: 'detail', label: 'Detail'},
+        {id: 'standardPrice', label: 'Standard Price'},
+        {id: 'multiplier', label: 'Multiplier'},
+        {id: 'quantity', label: 'Quantity'},
+        {id: 'price', label: 'Price'},
+        {id: 'isActive', label: 'Status'},
+        {id: 'substituteProductId', label: 'SubstituteProduct ID'},
+        {id: 'unitOfMeasurementId', label: 'Unit of measurement ID'},
+    ];
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -108,8 +121,7 @@ export function ProductDetail() {
         price: false,
     })
 
-    //Forms handle changing
-    const clearTextFields = () => {
+    const clearTextFields = () => { //Clear all field
         setProductFormData({
             name: '',
             code: '',
@@ -124,7 +136,7 @@ export function ProductDetail() {
             unitOfMeasurementId: ''
         });
     }
-    //Form changing on textfields
+    //Form changing on text fields
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setProductFormData((prevFormData) => ({
             ...prevFormData,
@@ -175,10 +187,10 @@ export function ProductDetail() {
     };
 
     const handleChangeIsActive = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
+        const value = event.target.value === "1";
         setProductFormData((prevFormData) => ({
             ...prevFormData,
-            isActive: event.target.value === "1"
+            isActive: value
         }));
     };
 
@@ -203,13 +215,44 @@ export function ProductDetail() {
         }));
     }
 
-    const handleChagePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         setPage(newPage);
     }
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowPerPage(parseInt(event.target.value, 10))
     }
+
+    const handleSortingChange = (cellId: keyof Product) => {
+        console.log("Sorting change:", cellId, orderBy, order);
+        const sortOrder = cellId === orderBy && order === "asc" ? "desc" : "asc";
+        setOrderBy(cellId);
+        setOrder(sortOrder);
+        handleSorting(cellId, sortOrder);
+    };
+
+    const handleSorting = (cellId: keyof Product, sortOrder: string) => {
+        if (cellId) {
+            const sorted = [...products].sort((a, b) => {
+                let aValue = a[cellId];
+                let bValue = b[cellId];
+                /*In this function there is an error when I try to click on the head cell 'substitute Product id'
+                In order to sort data from ascending or vice versa.
+                I'd debugged, I found that aValue and bValue is undefined
+                 */
+                if (aValue === null || bValue === null) {
+                    return 0;
+                }
+                return (
+                    aValue.toString().localeCompare(bValue.toString(), "en", {
+                        numeric: true,
+                    }) * (sortOrder === "asc" ? 1 : -1)
+                );
+            });
+            setProducts(sorted);
+        }
+    };
+
     //handle save button
     const handleSave = async () => {
         let formErrors = {
@@ -436,33 +479,35 @@ export function ProductDetail() {
                             <Table sx={{minWidth: 650}} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell align="right">Code</TableCell>
-                                        <TableCell align="right">Detail</TableCell>
-                                        <TableCell align="right">Standard Price</TableCell>
-                                        <TableCell align="right">Multiplier</TableCell>
-                                        <TableCell align="right">Quantity</TableCell>
-                                        <TableCell align="right">Price</TableCell>
-                                        <TableCell align="right">Status</TableCell>
-                                        <TableCell align="right">Category ID</TableCell>
-                                        <TableCell align="right">SubstituteProduct ID</TableCell>
-                                        <TableCell align="right">Unit of measurement ID</TableCell>
+                                        {headCells.map(({id, label}, index) => (
+                                            <TableCell key={id}>
+                                                <TableSortLabel
+                                                    active={orderBy === id}
+                                                    direction={orderBy === id ? order : 'asc'}
+                                                    onClick={() => {
+                                                        handleSortingChange(id as keyof Product)
+                                                    }}
+                                                >
+                                                    {label}
+                                                </TableSortLabel>
+                                            </TableCell>
+                                        ))}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {products.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{item.name}</TableCell>
-                                            <TableCell align="right">{item.code}</TableCell>
-                                            <TableCell align="right">{item.detail}</TableCell>
-                                            <TableCell align="right">{item.standardPrice}</TableCell>
-                                            <TableCell align="right">{item.multiplier}</TableCell>
-                                            <TableCell align="right">{item.quantity}</TableCell>
-                                            <TableCell align="right">{item.price}</TableCell>
-                                            <TableCell align="right">{item.isActive ? "Active" : "Inactive"}</TableCell>
-                                            <TableCell align="right">{item.categoryId}</TableCell>
-                                            <TableCell align="right">{item.substituteProductId}</TableCell>
-                                            <TableCell align="right">{item.unitOfMeasurementId}</TableCell>
+                                            <TableCell>{item.code}</TableCell>
+                                            <TableCell>{item.detail}</TableCell>
+                                            <TableCell>{item.standardPrice}</TableCell>
+                                            <TableCell>{item.multiplier}</TableCell>
+                                            <TableCell>{item.quantity}</TableCell>
+                                            <TableCell>{item.price}</TableCell>
+                                            <TableCell>{item.isActive ? "Active" : "Inactive"}</TableCell>
+                                            <TableCell>{item.categoryId}</TableCell>
+                                            <TableCell>{item.substituteProductId}</TableCell>
+                                            <TableCell>{item.unitOfMeasurementId}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -474,7 +519,7 @@ export function ProductDetail() {
                             count={products.length}
                             page={page}
                             rowsPerPage={rowPerPage}
-                            onPageChange={handleChagePage}
+                            onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                     </Grid>
