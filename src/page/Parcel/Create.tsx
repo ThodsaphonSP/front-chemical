@@ -28,6 +28,7 @@ import {GetProduct, Product} from "../../Services/productAPI";
 
 import {CreateParcel} from "../../Services/ParcelAPI";
 import {useNavigate} from "react-router-dom";
+import {ParcelTable} from "./ParcelTable";
 
 export type productQuantity = {
     product: Product | null,
@@ -47,25 +48,26 @@ export type receive = {
     saveAddress: boolean,
     cod: boolean
 }
+export type sender = {
+    firstname: string,
+    lastname: string,
+    phoneNo: string,
+    addressText: string,
+    province: Province | null,
+    district: District | null,
+    subDistrict: SubDistrict | null,
+    postalCode: PostalCode | null,
+    vendorDelivery: VendorDelivery | null,
+    selectProduct: {
+        indexNumber: productQuantity | null
+    }[],
+    saveAddress: boolean
+
+}
 
 
 export type ParcelForm = {
-    sender: {
-        firstname: string,
-        lastname: string,
-        phoneNo: string,
-        addressText: string,
-        province: Province | null,
-        district: District | null,
-        subDistrict: SubDistrict | null,
-        postalCode: PostalCode | null,
-        vendorDelivery: VendorDelivery | null,
-        selectProduct: {
-            indexNumber: productQuantity | null
-        }[],
-        saveAddress: boolean
-
-    }
+    sender: sender
     receive: receive
 }
 
@@ -1005,6 +1007,7 @@ export function Create() {
 
 
             </form>
+            <ParcelTable></ParcelTable>
         </>
     );
 }

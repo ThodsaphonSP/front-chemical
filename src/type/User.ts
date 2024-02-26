@@ -1,3 +1,4 @@
+import {Address} from "../Services/ParcelAPI";
 
 export class UserListResponse {
     totalCount: number = 0;
@@ -26,6 +27,7 @@ export class User {
     lastName: string = '';
     companyId: string = '';
     company: Company = new Company();
+    address: Address|null = null;
     roles: UserRole[] = [new UserRole()];
 }
 
