@@ -234,15 +234,15 @@ export function ProductDetail() {
     const handleSorting = (cellId: keyof Product, sortOrder: string) => {
         if (cellId) {
             const sorted = [...products].sort((a, b) => {
-                let aValue = a[cellId];
-                let bValue = b[cellId];
-                /*In this function there is an error when I try to click on the head cell 'substitute Product id'
-                In order to sort data from ascending or vice versa.
-                I'd debugged, I found that aValue and bValue is undefined
-                 */
-                if (aValue === null || bValue === null) {
-                    return 0;
-                }
+                const aValue = a[cellId];
+                const bValue = b[cellId];
+
+                // Handle null or undefined values
+                if (aValue == null && bValue == null) return 0;
+                if (aValue == null) return sortOrder === "asc" ? -1 : 1;
+                if (bValue == null) return sortOrder === "asc" ? 1 : -1;
+
+                // Handle other types of values
                 return (
                     aValue.toString().localeCompare(bValue.toString(), "en", {
                         numeric: true,
