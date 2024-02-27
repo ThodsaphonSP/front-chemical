@@ -479,7 +479,7 @@ export function ProductDetail() {
                             <Table sx={{minWidth: 650}} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        {headCells.map(({id, label}, index) => (
+                                        {headCells.map(({id, label}) => (
                                             <TableCell key={id}>
                                                 <TableSortLabel
                                                     active={orderBy === id}
@@ -487,9 +487,7 @@ export function ProductDetail() {
                                                     onClick={() => {
                                                         handleSortingChange(id as keyof Product)
                                                     }}
-                                                >
-                                                    {label}
-                                                </TableSortLabel>
+                                                >{label}</TableSortLabel>
                                             </TableCell>
                                         ))}
                                     </TableRow>
