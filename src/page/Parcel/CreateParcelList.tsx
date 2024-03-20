@@ -1,11 +1,11 @@
 import {BaseContainer} from "../admin/BaseContainer";
 import {Box, Grid, Tab, Tabs} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {setTitle} from "../../features/Nav/NavSlice";
 import pageData from "../../type/PageData.json";
 import {useDispatch} from "react-redux";
 import {Create} from "./Create";
-
+import {Preparing} from "./Preparing";
 
 
 export interface TabPanelProps {
@@ -15,12 +15,13 @@ export interface TabPanelProps {
 }
 
 
-function a11yProps(index: number) {
+ function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
+
 export function CreateParcelList(){
     const dispatch = useDispatch();
 
@@ -59,7 +60,7 @@ export function CreateParcelList(){
                            <Create></Create>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
-                            Item Two
+                            <Preparing></Preparing>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
                             Item Three
@@ -76,7 +77,7 @@ export function CreateParcelList(){
     );
 }
 
-function CustomTabPanel(props: TabPanelProps) {
+export function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
 
     return (
