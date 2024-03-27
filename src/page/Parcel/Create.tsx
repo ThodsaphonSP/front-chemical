@@ -49,19 +49,10 @@ export type receive = {
     cod: boolean
 }
 export type sender = {
-    firstname: string,
-    lastname: string,
-    phoneNo: string,
-    addressText: string,
-    province: Province | null,
-    district: District | null,
-    subDistrict: SubDistrict | null,
-    postalCode: PostalCode | null,
     vendorDelivery: VendorDelivery | null,
     selectProduct: {
         indexNumber: productQuantity | null
-    }[],
-    saveAddress: boolean
+    }[]
 
 }
 
@@ -78,15 +69,7 @@ export function Create() {
     const form = useForm<ParcelForm>({
         defaultValues: {
             sender: {
-                firstname: '',
-                lastname: '',
-                phoneNo: '',
-                addressText: '',
                 vendorDelivery: null,
-                province: null,
-                district: null,
-                subDistrict: null,
-                postalCode: null,
                 selectProduct: [{
                     indexNumber: null
                 }]
@@ -113,7 +96,6 @@ export function Create() {
 
     const [loadReceiver,setLoadReceiver]=useState<boolean>(false);
 
-    const senderProvinceValue = watch("sender.province");
 
     const receiveProvinceValue = watch("receive.province");
 
@@ -122,13 +104,10 @@ export function Create() {
 
     const [vendorDelivery, setVendorDelivery] = useState<VendorDelivery[]>([])
 
-    const [senderProvince, setSenderProvince] = useState<Province[]>([])
 
 
-    const [senderDistrict, setSenderDistrict] = useState<District[]>([]);
 
-    const [senderSubDistrict, setSenderSubDistrict] = useState<SubDistrict[]>([]);
-    const [senderPostalCode, setSenderPostalCode] = useState<PostalCode[]>([]);
+
 
 
     const [receiveProvince, setReceiveProvince] = useState<Province[]>([])
@@ -230,7 +209,6 @@ export function Create() {
 
             const data: Province[] = response.data
 
-            setSenderProvince(data);
             setReceiveProvince(data);
 
 
@@ -241,23 +219,7 @@ export function Create() {
     };
 
 
-    useEffect(() => {
 
-        const fetchSenderDisctrict = async (): Promise<void> => {
-            if (!senderProvinceValue) { // Use the watched province value
-                return;
-            }
-
-            try {
-                const response = await GetDistrict(senderProvinceValue.id); // Assume provinceValue contains the province object
-                const data: District[] = response.data;
-                setSenderDistrict(data);
-            } catch (error) {
-                console.error('Failed to fetch data:', error);
-            }
-        };
-        fetchSenderDisctrict();
-    }, [senderProvinceValue]); // Depend on the watched province value
 
     useEffect(() => {
 
@@ -319,11 +281,6 @@ export function Create() {
 
                     </Grid>
                     <Grid columnSpacing={2} container={true} item={true} xs={12}>
-                        <Grid item={true} md={"auto"}>
-                            <Button sx={{color: "white", backgroundColor: "#2196F3"}}
-                            >ค้นหาที่อยู่ผู้ส่ง
-                            </Button>
-                        </Grid>
                         <Grid item={true} xs={6} md={3}>
                             <Controller
                                 name="sender.vendorDelivery"
@@ -340,7 +297,7 @@ export function Create() {
                                         getOptionLabel={(option) => option.name || ''}
                                         value={value || null} // Ensure value is never undefined
                                         isOptionEqualToValue={(option, value) => option.id === value.id} // Assuming each option has a unique `id` property
-                                        onChange={(event, item) => onChange(item)}
+                                        onChange={(_event, item) => onChange(item)}
                                         renderInput={(params) => (
                                             <TextField
                                                 {...params}
@@ -354,219 +311,9 @@ export function Create() {
                             />
                         </Grid>
                     </Grid>
-                    <Grid item={true} xs={12} sm={6} md={4}>
-                        <TextField size={"small"} fullWidth={true}
-                                   error={!!errors.sender?.firstname?.message}
-                                   id="firstname"
-                                   label="ชื่อ"
-                                   {...register("sender.firstname", {
-                                       required: {
-                                           value: true,
-                                           message: "กรุณาใส่ชื่อ"
-                                       }
-                                   })}
-                                   helperText={errors.sender?.firstname?.message}
 
-                        />
-                    </Grid>
-                    <Grid item={true} xs={12} sm={6} md={4}>
-                        <TextField size={"small"} fullWidth={true}
-                                   error={!!errors.sender?.lastname?.message}
-                                   id="lastName"
-                                   label="นามสกุล"
-                                   {...register("sender.lastname", {
-                                       required: {
-                                           value: true,
-                                           message: "กรุณาใส่นามสกุล"
-                                       }
-                                   })}
-                                   helperText={errors.sender?.lastname?.message}
-                        />
-                    </Grid>
-                    <Grid item={true} xs={12} sm={12} md={4}>
-                        <TextField size={"small"} fullWidth={true}
-                                   error={!!errors.sender?.phoneNo?.message}
-                                   id="phoneNo"
-                                   label="หมายเลขโทรศัพท์"
-                                   {...register("sender.phoneNo", {
-                                       required: {
-                                           value: true,
-                                           message: "กรุณาใส่หมายเลขโทรศัพท์"
-                                       },
-                                       pattern: {
-                                           value: /^\d{10}$/,
-                                           message: "ใส่หมายเลขโทรศัพท์ให้ถูกต้องความยาว 10 ตัวเลข"
-                                       }
-                                   })}
-                                   helperText={errors.sender?.phoneNo?.message}
-                        />
-                    </Grid>
-                    <Grid item={true} xs={12} md={12}>
-                        <TextField size={"small"} fullWidth={true}
-                                   id="address"
-                                   label="ที่อยู่"
-                                   {...register("sender.addressText", {
-                                       required: {
-                                           value: true,
-                                           message: "กรุณาใส่ที่อยู่"
-                                       }
-                                   })}
-                                   error={!!errors.sender?.addressText?.message}
-                                   helperText={errors.sender?.addressText?.message}
 
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3}>
-                        <Controller
-                            name="sender.province"
-                            control={control}
-                            rules={{required: "กรุณาใส่จังหวัด"}} // Add validation rules as needed
-                            render={({field: {onChange, value}, fieldState: {error}}) => (
-                                <Autocomplete
-                                    size="small"
-                                    id="จังหวัด"
-                                    options={senderProvince}
-                                    getOptionLabel={(option) => option.thaiName}
-                                    value={value || null}
-                                    onChange={(event, newValue) => {
-                                        onChange(newValue); // Inform react-hook-form of the change
-                                        setSenderDistrict([]);
-                                        setSenderSubDistrict([]);
-                                        setSenderPostalCode([]);
-                                        // Reset related fields in react-hook-form as needed
-                                        form.setValue("sender.district", null);
-                                        form.setValue("sender.subDistrict", null);
-                                        form.setValue("sender.postalCode", null);
-                                    }}
-                                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="จังหวัด"
-                                            error={!!error}
-                                            helperText={error ? error.message : null}
-                                        />
-                                    )}
-                                />
-                            )}
-                        />
-                    </Grid>
 
-                    <Grid item={true} xs={12} sm={6} md={3}>
-                        <Controller
-                            name="sender.district"
-                            control={control}
-                            rules={{required: "กรุณาใส่อำเภอ"}} // Add validation rules as needed
-                            render={({field: {onChange, value}, fieldState: {error}}) => (
-                                <Autocomplete
-                                    size="small"
-                                    id="อำเภอ"
-                                    options={senderDistrict}
-                                    getOptionLabel={(option) => option.thaiName}
-                                    value={value || null}
-                                    onChange={(event, newValue) => {
-                                        onChange(newValue); // Inform react-hook-form of the change
-
-                                        if (newValue) {
-
-                                            const subDistricts = newValue.subDistricts;
-
-                                            if (subDistricts) {
-                                                setSenderSubDistrict(subDistricts);
-                                            } else {
-                                                setSenderSubDistrict([]);
-                                                setSenderPostalCode([]);
-                                                // Reset related fields in react-hook-form as needed
-                                                form.setValue("sender.subDistrict", null);
-                                                form.setValue("sender.postalCode", null);
-                                            }
-                                        }
-
-                                    }}
-                                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="อำเภอ"
-                                            error={!!error}
-                                            helperText={error ? error.message : null}
-                                        />
-                                    )}
-                                />
-                            )}
-                        />
-                    </Grid>
-                    <Grid item={true} xs={12} sm={6} md={3}>
-                        <Controller
-                            name="sender.subDistrict"
-                            control={control}
-                            rules={{required: "กรุณาใส่ตำบล"}} // Add validation rules as needed
-                            render={({field: {onChange, value}, fieldState: {error}}) => (
-                                <Autocomplete
-                                    size="small"
-                                    id="subdistrict"
-                                    options={senderSubDistrict}
-                                    getOptionLabel={(option) => option.thaiName}
-                                    value={value || null}
-                                    onChange={(event, newValue) => {
-                                        onChange(newValue); // Inform react-hook-form of the change
-
-                                        if (newValue) {
-
-                                            const postalCodes = newValue.postalCodes;
-
-                                            if (postalCodes) {
-                                                setSenderPostalCode(postalCodes);
-                                            } else {
-                                                setSenderPostalCode([]);
-                                                // Reset related fields in react-hook-form as needed
-                                                form.setValue("sender.postalCode", null);
-                                            }
-                                        }
-
-                                    }}
-                                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="ตำบล"
-                                            error={!!error}
-                                            helperText={error ? error.message : null}
-                                        />
-                                    )}
-                                />
-                            )}
-                        />
-                    </Grid>
-                    <Grid item={true} xs={12} sm={6} md={3}>
-                        <Controller
-                            name="sender.postalCode"
-                            control={control}
-                            rules={{required: "กรุณาใส่รหัสไปรษณีย์"}} // Add validation rules as needed
-                            render={({field: {onChange, value}, fieldState: {error}}) => (
-                                <Autocomplete
-                                    size="small"
-                                    id="postalCode"
-                                    options={senderPostalCode}
-                                    getOptionLabel={(option) => option.code}
-                                    value={value || null}
-                                    onChange={(event, newValue) => {
-                                        onChange(newValue); // Inform react-hook-form of the change
-
-                                    }}
-                                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="ไปรษณีย์"
-                                            error={!!error}
-                                            helperText={error ? error.message : null}
-                                        />
-                                    )}
-                                />
-                            )}
-                        />
-                    </Grid>
 
 
                     <Grid item={true} xs={12}>
@@ -596,7 +343,7 @@ export function Create() {
                                             options={productArray}
                                             getOptionLabel={(option: Product) => option.name}
                                             value={value || null}
-                                            onChange={(event, newValue) => onChange(newValue)}
+                                            onChange={(_event, newValue) => onChange(newValue)}
                                             isOptionEqualToValue={(option, value) => option.code === value.code}
                                             renderInput={(params) => (
                                                 <TextField
@@ -652,27 +399,6 @@ export function Create() {
                     ))}
 
 
-                    <Grid xs={12} item={true}>
-                        <Controller
-                            name="sender.saveAddress"
-                            control={control}
-                            defaultValue={false} // Default value for the checkbox
-                            render={({field}) => (
-                                <FormGroup>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                {...field} // Spread field props to Checkbox
-                                                checked={field.value} // Use field.value for Checkbox's checked state
-                                                onChange={(e) => field.onChange(e.target.checked)} // Update form value on change
-                                            />
-                                        }
-                                        label="บันทึกที่อยู่" // Your label text here
-                                    />
-                                </FormGroup>
-                            )}
-                        />
-                    </Grid>
 
 
                 </Grid>
@@ -808,7 +534,7 @@ export function Create() {
                                     options={receiveProvince}
                                     getOptionLabel={(option) => option.thaiName}
                                     value={value || null}
-                                    onChange={(event, newValue) => {
+                                    onChange={(_event, newValue) => {
                                         onChange(newValue); // Inform react-hook-form of the change
                                         setReceiveDistrict([]);
                                         setReceiveSubDistrict([]);
@@ -845,7 +571,7 @@ export function Create() {
                                     options={receiveDistrict}
                                     getOptionLabel={(option) => option.thaiName}
                                     value={value || null}
-                                    onChange={(event, newValue) => {
+                                    onChange={(_event, newValue) => {
                                         onChange(newValue); // Inform react-hook-form of the change
 
                                         if (newValue) {
@@ -890,7 +616,7 @@ export function Create() {
                                     options={receiveSubDistrict}
                                     getOptionLabel={(option) => option.thaiName}
                                     value={value || null}
-                                    onChange={(event, newValue) => {
+                                    onChange={(_event, newValue) => {
                                         onChange(newValue); // Inform react-hook-form of the change
 
                                         if (newValue) {
@@ -902,7 +628,7 @@ export function Create() {
                                             } else {
                                                 setReceivePostalCode([]);
                                                 // Reset related fields in react-hook-form as needed
-                                                form.setValue("sender.postalCode", null);
+                                                form.setValue("receive.postalCode", null);
                                             }
                                         }
 
@@ -933,7 +659,7 @@ export function Create() {
                                     options={receivePostalCode}
                                     getOptionLabel={(option) => option.code}
                                     value={value || null}
-                                    onChange={(event, newValue) => {
+                                    onChange={(_event, newValue) => {
                                         onChange(newValue); // Inform react-hook-form of the change
 
                                     }}
