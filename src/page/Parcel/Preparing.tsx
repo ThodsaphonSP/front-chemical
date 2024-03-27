@@ -22,13 +22,20 @@ export function Preparing() {
     return (<>
         <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                <StatusTab label="เตรียมส่ง" icon={<AccessAlarmIcon/>} badgeContent={4} {...a11yProps(1)} />
-                <Tab label={<Grid columnSpacing={1} container={true}>
-                    <Grid item={true} xs={6}>a</Grid>
-                    <Grid item={true} xs={6}>20</Grid>
-                </Grid>}></Tab>
-                <Box><Button {...a11yProps(0)}>111</Button></Box>
-
+                <Tab label={
+                    <Grid columnSpacing={2} container={true}>
+                        <Grid item={true} xs={6}>ทั้งหมด</Grid>
+                        <Grid item={true} xs={6}>20</Grid>
+                    </Grid>}
+                ></Tab>
+                <Tab label={<Box component={"div"}>รอเข้ารับ <Box component={"span"}>20</Box></Box>}></Tab>
+                <Tab label={<Box component={"div"}>พัสดุเข้าระบบ <Box component={"span"}>20</Box></Box>}></Tab>
+                <Tab label={<Box component={"div"}>อยู่ระหว่างขนส่ง <Box component={"span"}>20</Box></Box>}></Tab>
+                <Tab label={<Box component={"div"}>กำลังนำส่ง <Box component={"span"}>20</Box></Box>}></Tab>
+                <Tab label={<Box component={"div"}>จัดส่งสำเร็จ <Box component={"span"}>20</Box></Box>}></Tab>
+                <Tab label={<Box component={"div"}>พัสดุตีกลับ <Box component={"span"}>20</Box></Box>}></Tab>
+                <Tab label={<Box component={"div"}>ส่งคืนสำเร็จ <Box component={"span"}>20</Box></Box>}></Tab>
+                <Tab label={<Box component={"div"}>ชำระเงินคืนสำเร็จ <Box component={"span"}>20</Box></Box>}></Tab>
 
             </Tabs>
         </Box>
