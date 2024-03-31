@@ -6,6 +6,7 @@ import pageData from "../../type/PageData.json";
 import {useDispatch} from "react-redux";
 import {Create} from "./Create";
 import {Preparing} from "./Preparing";
+import Car from "./Car";
 
 
 export interface TabPanelProps {
@@ -63,7 +64,7 @@ export function CreateParcelList(){
                             <Preparing></Preparing>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
-                            Item Three
+                            <Car/>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={3}>
                             ปริ้นด่วน

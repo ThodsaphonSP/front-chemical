@@ -13,29 +13,29 @@ import {
 } from "@mui/material";
 
 import AdbIcon from '@mui/icons-material/Adb';
-import {SideManu} from "../../component/SideManu";
+import { SideManu } from "../../component/SideManu";
 import MenuIcon from '@mui/icons-material/Menu';
-import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {selectNavTitle, selectUser} from "../../app/store";
-import {User} from "../../type/User";
-import {useAppSelector} from "../../app/hooks";
-import {Outlet, useNavigate} from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectNavTitle, selectUser } from "../../app/store";
+import { User } from "../../type/User";
+import { useAppSelector } from "../../app/hooks";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export function GetName(user: User | null) {
 
-    if (user){
+    if (user) {
         return `${user.firstName}  ${user.lastName}`;
-    }else {
+    } else {
         return "";
     }
 }
 
 function GetCompanyName(user: User | null) {
 
-    if (user){
+    if (user) {
         return `${user.company.companyName}`;
-    }else {
+    } else {
         return "";
     }
 }
@@ -72,17 +72,17 @@ export function MainPage() {
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
-
+    const ref = React.useRef<HTMLInputElement>(null);
     return (
         <>
-            <Grid container style={{height: '100vh'}}>
-                <Grid id={"sideBar"} item sm={'auto'} sx={{display: {xs: "none", sm: "flex"}}} style={{height: '100%'}}>
-                    <SideManu/>
+            <Grid container style={{ height: '100vh', width: "100vw" }} flexWrap={"nowrap"}>
+                <Grid ref={ref} id={"sideBar"} item sm={'auto'} sx={{ display: { xs: "none", sm: "flex" } }} style={{ height: '100%' }}>
+                    <SideManu />
                 </Grid>
-                <Grid item={true} xs={12} sm>
-                    <Grid direction={"column"} container={true}>
+                <Grid item={true} sx={{ width: `calc(100vw - ${ref}px)`,margin:"0 auto" }}>
+                    <Grid direction={"row"} container={true}>
                         <Grid item={true} xs={12}>
-                            <AppBar position="static" sx={{backgroundColor: "white"}}>
+                            <AppBar position="static" sx={{ backgroundColor: "white" }}>
                                 <Container maxWidth="xl">
                                     <Toolbar disableGutters>
                                         {/*<AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>*/}
@@ -95,7 +95,7 @@ export function MainPage() {
                                                     href="#app-bar-with-responsive-menu"
                                                     sx={{
                                                         mr: 2,
-                                                        display: {xs: 'none', md: 'flex'},
+                                                        display: { xs: 'none', md: 'flex' },
                                                         fontWeight: 700,
                                                         color: 'black',
                                                         textDecoration: 'none',
@@ -107,7 +107,7 @@ export function MainPage() {
                                                 <Box sx={{
                                                     color: "black",
                                                     flexGrow: 1,
-                                                    display: {xs: 'flex', md: 'none'}
+                                                    display: { xs: 'flex', sm: 'none' }
                                                 }}>
                                                     <IconButton
                                                         size="large"
@@ -117,7 +117,7 @@ export function MainPage() {
                                                         onClick={handleOpenNavMenu}
                                                         color="inherit"
                                                     >
-                                                        <MenuIcon/>
+                                                        <MenuIcon />    
                                                     </IconButton>
                                                     <Menu
                                                         id="menu-appbar"
@@ -134,7 +134,7 @@ export function MainPage() {
                                                         open={Boolean(anchorElNav)}
                                                         onClose={handleCloseNavMenu}
                                                         sx={{
-                                                            display: {xs: 'block', md: 'none'},
+                                                            display: { xs: 'block', md: 'none' },
                                                         }}
                                                     >
                                                         {pages.map((page) => (
@@ -144,7 +144,7 @@ export function MainPage() {
                                                         ))}
                                                     </Menu>
                                                 </Box>
-                                                <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
+                                                <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                                                 <Typography
                                                     variant="h5"
                                                     noWrap
@@ -152,7 +152,7 @@ export function MainPage() {
                                                     href="#app-bar-with-responsive-menu"
                                                     sx={{
                                                         mr: 2,
-                                                        display: {xs: 'flex', md: 'none'},
+                                                        display: { xs: 'flex', md: 'none' },
                                                         flexGrow: 1,
                                                         fontWeight: 700,
                                                         letterSpacing: '.3rem',
@@ -168,21 +168,21 @@ export function MainPage() {
                                                     <Grid container justifyContent="flex-start" columnSpacing={2}>
                                                         <Grid item>
                                                             <Typography
-                                                                sx={{color: "black"}}>{GetName(user)}</Typography>
+                                                                sx={{ color: "black" }}>{GetName(user)}</Typography>
                                                             <Typography
-                                                                sx={{color: "black"}}>{GetCompanyName(user)}</Typography>
+                                                                sx={{ color: "black" }}>{GetCompanyName(user)}</Typography>
                                                         </Grid>
                                                         <Grid item>
-                                                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                                                 <Avatar alt="Remy Sharp"
-                                                                        src="/static/images/avatar/2.jpg"/>
+                                                                    src="/static/images/avatar/2.jpg" />
                                                             </IconButton>
                                                         </Grid>
                                                     </Grid>
 
                                                 </Tooltip>
                                                 <Menu
-                                                    sx={{mt: '45px'}}
+                                                    sx={{ mt: '45px' }}
                                                     id="menu-appbar"
                                                     anchorEl={anchorElUser}
                                                     anchorOrigin={{
