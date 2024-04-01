@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {Create} from "./Create";
 import {Preparing} from "./Preparing";
 import Car from "./Car";
+import Print from "./Print";
 
 
 export interface TabPanelProps {
@@ -67,7 +68,7 @@ export function CreateParcelList(){
                             <Car/>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={3}>
-                            ปริ้นด่วน
+                            <Print/>
                         </CustomTabPanel>
                     </Grid>
 

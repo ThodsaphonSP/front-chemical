@@ -217,7 +217,7 @@ export function SideManu() {
 
                             <RecentActors style={{color: 'white'}}/>
                         </ListItemIcon>
-                        <Link to={pageData["Create-Parcel"].pageUrl} style={{textDecoration: 'none', color: 'inherit'}}>
+                        <Link to={pageData['Create-Parcel'].pageUrl} style={{textDecoration: 'none', color: 'inherit'}}>
                             <ListItemText primary="รายการพัสดุ"/>
                         </Link>
 
