@@ -205,7 +205,10 @@ export function SideManu() {
                                 {
                                     item.to !== undefined && item.to !== null ? <Link to={item.to} style={{textDecoration: 'none', color: 'inherit'}}>
                                         <ListItemButton onClick={() => {
-                                            handleOpen(index + 1);
+                                            if(item.collapse !== undefined && item.collapse !== null && item.collapse.list !== undefined && item.collapse.list !== null && item.collapse.list.length > 0)
+                                            {
+                                                handleOpen(index + 1);
+                                            }
                                         }}>
                                             <ListItemIcon>
                                                 {
@@ -222,7 +225,10 @@ export function SideManu() {
                                             }
                                         </ListItemButton>
                                     </Link> : <ListItemButton onClick={() => {
-                                        handleOpen(index + 1);
+                                        if(item.collapse !== undefined && item.collapse !== null && item.collapse.list !== undefined && item.collapse.list !== null && item.collapse.list.length > 0)
+                                        {
+                                            handleOpen(index + 1);
+                                        }
                                     }}>
                                         <ListItemIcon>
                                             {
