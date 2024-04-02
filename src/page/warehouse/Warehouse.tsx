@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 import {
   Box,
-  Button, FormControl,
-  Grid, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Table, TableBody, TableHead, TableRow,
-  styled, TableCell, TableFooter, ButtonGroup, Tabs, Tab
-
+  Grid,
+  Tabs, Tab
 } from "@mui/material";
 import { BaseContainer } from '../admin/BaseContainer';
 import { CustomTabPanel } from '../Parcel/CreateParcelList';
@@ -12,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setTitle } from '../../features/Nav/NavSlice';
 import pageData from "../../type/PageData.json";
 import ProductList_Warehouse from './ProductList_Warehouse';
+import History_Warehouse from './History_Warehouse';
 
 type Props = {}
 
@@ -43,12 +42,9 @@ function Warehouse({ }: Props) {
               <ProductList_Warehouse />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-
+              <History_Warehouse />
             </CustomTabPanel>
-
           </Grid>
-
-
         </Grid>
       </BaseContainer>
     </Grid>
