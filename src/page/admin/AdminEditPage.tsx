@@ -325,7 +325,7 @@ export function AdminEditPage() {
             <BaseContainer>
                 <Grid rowSpacing={1} columnSpacing={1} container component="form" onSubmit={handleSubmit}>
                     <Grid item xs={12}>
-                        <Typography variant="h6">Edit User</Typography>
+                        <Typography variant="h6">สร้าง Account </Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <TextField

@@ -18,5 +18,10 @@
     "pageUrl": "/create-product",
     "allowRole": ["",""],
     "pageTitle": "สร้างสินค้า"
+  },
+  "warehouse": {
+    "pageUrl": "/warehouse",
+    "allowRole": ["",""],
+    "pageTitle": "คลังสินค้า"
   }
 }

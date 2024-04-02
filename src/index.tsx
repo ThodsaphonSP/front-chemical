@@ -14,7 +14,7 @@ import { AdminEditPage } from "./page/admin/AdminEditPage";
 
 import { CreateParcelList } from "./page/Parcel/CreateParcelList";
 import { ProductDetail } from "./page/Product/ProductDetail";
-import Car from './page/Parcel/Car';
+import Warehouse from './page/warehouse/Warehouse';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
                 path: pageData["Create-Product"].pageUrl,
                 element: <><ProductDetail></ProductDetail></>
             },
-            // { path: '/car', element: <><Car/></> },
+            { path: pageData["warehouse"].pageUrl, element: <><Warehouse /></> },
             // ... other child routes
         ],
     },

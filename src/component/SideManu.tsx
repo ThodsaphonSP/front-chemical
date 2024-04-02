@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Drawer, List, ListItemIcon, ListItemText, ListItemButton, Collapse} from '@mui/material';
+import React, { useState } from 'react';
+import { Drawer, List, ListItemIcon, ListItemText, ListItemButton, Collapse } from '@mui/material';
 import {
     Circle,
     ExpandMore,
@@ -12,8 +12,8 @@ import {
 } from "@mui/icons-material";
 import FactoryIcon from '@mui/icons-material/Factory';
 import pageData from "../type/PageData.json"
-
-import {Link} from "react-router-dom";
+import StoreIcon from '@mui/icons-material/Store';
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import GroupIcon from '@mui/icons-material/Group';
 
@@ -145,63 +145,63 @@ export function SideManu() {
 
     return (
         <Drawer
-            sx={{...styles.drawer, height: '100%'}}
+            sx={{ ...styles.drawer, height: '100%' }}
             variant="permanent"
             anchor="left"
         >
 
             <List>
 
-                <Box sx={{backgroundColor: firstPageOpen ? "orange" : "initial", borderTopRightRadius: '40px'}}>
+                <Box sx={{ backgroundColor: firstPageOpen ? "orange" : "initial", borderTopRightRadius: '40px' }}>
                     <ListItemButton onClick={() => {
                         handleOpen("FirstPage")
                     }}>
                         <ListItemIcon>
 
-                            <Home style={{color: "white"}}/>
+                            <Home style={{ color: "white" }} />
                         </ListItemIcon>
-                        <Link to="/FirstPage" style={{textDecoration: 'none', color: 'inherit'}}>
-                            <ListItemText primary="หน้าแรก"/>
+                        <Link to="/FirstPage" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemText primary="หน้าแรก" />
                         </Link>
                     </ListItemButton>
                     <Collapse in={firstPageOpen} timeout="auto" unmountOnExit>
                     </Collapse>
                 </Box>
 
-                <Box sx={{backgroundColor: adminOpen ? "orange" : "initial", borderTopRightRadius: '40px'}}>
+                <Box sx={{ backgroundColor: adminOpen ? "orange" : "initial", borderTopRightRadius: '40px' }}>
                     <ListItemButton onClick={() => {
                         handleOpen("admin")
                     }}>
                         <ListItemIcon>
-                            <GroupIcon style={{color: 'white'}}/>
+                            <GroupIcon style={{ color: 'white' }} />
                         </ListItemIcon>
-                        <ListItemText primary="ระบบแอดมิน"/>
-                        {adminOpen ? <ExpandLess/> : <ExpandMore/>}
+                        <ListItemText primary="ระบบแอดมิน" />
+                        {adminOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={adminOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to="/admin" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="บัญชีผู้ใช้งาน"/>
+                                <Link to="/admin" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="บัญชีผู้ใช้งาน" />
                                 </Link>
                             </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to="/Authority" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="จัดการสิทธิ์"/>
+                                <Link to="/Authority" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="จัดการสิทธิ์" />
                                 </Link>
                             </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to="/User" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="จัดการผู้ใช้"/>
+                                <Link to="/User" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="จัดการผู้ใช้" />
                                 </Link>
                             </ListItemButton>
                         </List>
@@ -209,171 +209,84 @@ export function SideManu() {
                 </Box>
 
 
-                <Box sx={{backgroundColor: parcelOpen ? "orange" : "initial", borderTopRightRadius: '40px'}}>
+                <Box sx={{ backgroundColor: parcelOpen ? "orange" : "initial", borderTopRightRadius: '40px' }}>
                     <ListItemButton onClick={() => {
                         handleOpen("Parcel")
                     }}>
                         <ListItemIcon>
-
-                            <RecentActors style={{color: 'white'}}/>
+                            <RecentActors style={{ color: 'white' }} />
                         </ListItemIcon>
-                        <Link to={pageData['Create-Parcel'].pageUrl} style={{textDecoration: 'none', color: 'inherit'}}>
-                            <ListItemText primary="รายการพัสดุ"/>
+                        <Link to={pageData['Create-Parcel'].pageUrl} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemText primary="รายการพัสดุ" />
                         </Link>
-
-                        {/*{parcelOpen ? <ExpandLess/> : <ExpandMore/>}*/}
                     </ListItemButton>
-                   {/* <Collapse in={parcelOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/all-contacts" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="รายชื่อทั้งหมด"/>
-                                </Link>
-                            </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/employee" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="พนักงาน"/>
-                                </Link>
-                            </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/customer" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="ลูกค้า-คู่ค้า"/>
-                                </Link>
-                            </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/raw-material" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="สารวัตถุดิบ"/>
-                                </Link>
-                            </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/packaging" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="บรรจุภัณฑ์"/>
-                                </Link>
-                            </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/machine" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="เครื่องจักร"/>
-                                </Link>
-                            </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/another" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="ประเภทอื่นๆ"/>
-                                </Link>
-                            </ListItemButton>
-                        </List>
-
-
-                    </Collapse>*/}
-
 
                 </Box>
+                {/* ---------------------------- InProcess---------------------------- */}
 
-
-                <Box sx={{backgroundColor: personOpen ? "orange" : "initial", borderTopRightRadius: '40px'}}>
-                    <ListItemButton onClick={() => {
-                        handleOpen("Person")
-                    }}>
+                <Box sx={{ backgroundColor: wareHouseOpen ? "orange" : "initial", borderTopRightRadius: '40px' }}>
+                    <ListItemButton onClick={() => handleOpen("warehouse")}>
                         <ListItemIcon>
-
-                            <Person style={{color: 'white'}}/>
+                            <StoreIcon style={{ color: 'white' }} />
                         </ListItemIcon>
-                        <ListItemText primary="ระบบบุคคล"/>
-                        {personOpen ? <ExpandLess/> : <ExpandMore/>}
+                        <Link to={pageData['warehouse'].pageUrl} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemText primary="คลังสินค้า" />
+                        </Link>
                     </ListItemButton>
-                    <Collapse in={personOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/Person" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="บริษัท เลเจนด์ อ๊อฟ โปรดักส์ จำกัด"/>
-                                </Link>
-                            </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
-                                <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
-                                </ListItemIcon>
-                                <Link to="/hr-cosmic" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="บริษัท อินคอสแม็ก จำกัด"/>
-                                </Link>
-                            </ListItemButton>
-                        </List>
-                    </Collapse>
                 </Box>
 
+                {/* ---------------------------- InProcess---------------------------- */}
 
-                <Box sx={{backgroundColor: goodsOpen ? "orange" : "initial", borderTopRightRadius: '40px'}}>
+                <Box sx={{ backgroundColor: goodsOpen ? "orange" : "initial", borderTopRightRadius: '40px' }}>
                     <ListItemButton onClick={() => {
                         handleOpen("good")
                     }}>
                         <ListItemIcon>
-                            <FactoryIcon style={{color: "white"}}/>
+                            <FactoryIcon style={{ color: "white" }} />
                         </ListItemIcon>
-                        <ListItemText primary="ระบบสร้างสินค้า"/>
-                        {goodsOpen ? <ExpandLess/> : <ExpandMore/>}
+                        <ListItemText primary="ระบบสร้างสินค้า" />
+                        {goodsOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={goodsOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to={pageData["Create-Product"].pageUrl} style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="สร้าง Product"/>
+                                <Link to={pageData["Create-Product"].pageUrl} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="สร้าง Product" />
                                 </Link>
                             </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to="/cosmetic" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="Cosmetic"/>
+                                <Link to="/cosmetic" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="Cosmetic" />
                                 </Link>
                             </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to="/food" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="Food-Drink"/>
+                                <Link to="/food" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="Food-Drink" />
                                 </Link>
                             </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to="/create-raw-material" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="Raw Material"/>
+                                <Link to="/create-raw-material" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="Raw Material" />
                                 </Link>
                             </ListItemButton>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to="/pet-shop" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="Pet Shop"/>
+                                <Link to="/pet-shop" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="Pet Shop" />
                                 </Link>
                             </ListItemButton>
                         </List>
@@ -384,58 +297,58 @@ export function SideManu() {
 
                 </Box>
 
-                <Box sx={{backgroundColor: manufactureOpen ? "orange" : "initial", borderTopRightRadius: '40px'}}>
+                <Box sx={{ backgroundColor: manufactureOpen ? "orange" : "initial", borderTopRightRadius: '40px' }}>
                     <ListItemButton onClick={() => handleOpen("manufacture")}>
                         <ListItemIcon>
-                            <Inventory2Outlined style={{color: 'white'}}/>
+                            <Inventory2Outlined style={{ color: 'white' }} />
                         </ListItemIcon>
-                        <ListItemText primary="ระบบผลิต"/>
-                        {manufactureOpen ? <ExpandLess/> : <ExpandMore/>}
+                        <ListItemText primary="ระบบผลิต" />
+                        {manufactureOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={manufactureOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <Link to="/all-manufacture" style={{textDecoration: 'none', color: 'inherit'}}>
-                                <ListItemButton sx={{pl: 4}}>
+                            <Link to="/all-manufacture" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
-                                        <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                        <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="การสั่งซื้อ"/>
+                                    <ListItemText primary="การสั่งซื้อ" />
                                 </ListItemButton>
                             </Link>
                         </List>
                     </Collapse>
                     <Collapse in={manufactureOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <Link to="/all-rawmaterial" style={{textDecoration: 'none', color: 'inherit'}}>
-                                <ListItemButton sx={{pl: 4}}>
+                            <Link to="/all-rawmaterial" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
-                                        <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                        <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="สารวัตถุดิบ"/>
+                                    <ListItemText primary="สารวัตถุดิบ" />
                                 </ListItemButton>
                             </Link>
                         </List>
                     </Collapse>
                     <Collapse in={manufactureOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <Link to="/all-productformula" style={{textDecoration: 'none', color: 'inherit'}}>
-                                <ListItemButton sx={{pl: 4}}>
+                            <Link to="/all-productformula" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
-                                        <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                        <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="สูตรสินค้า"/>
+                                    <ListItemText primary="สูตรสินค้า" />
                                 </ListItemButton>
                             </Link>
                         </List>
                     </Collapse>
                     <Collapse in={manufactureOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <Link to="/all-testanddev" style={{textDecoration: 'none', color: 'inherit'}}>
-                                <ListItemButton sx={{pl: 4}}>
+                            <Link to="/all-testanddev" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
-                                        <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                        <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="Test & Dev"/>
+                                    <ListItemText primary="Test & Dev" />
                                 </ListItemButton>
                             </Link>
                         </List>
@@ -444,57 +357,57 @@ export function SideManu() {
 
                 </Box>
 
-                <Box sx={{backgroundColor: wareHouseOpen ? "orange" : "initial", borderTopRightRadius: '40px'}}>
+                {/* <Box sx={{ backgroundColor: wareHouseOpen ? "orange" : "initial", borderTopRightRadius: '40px' }}>
                     <ListItemButton onClick={() => handleOpen("warehouse")}>
                         <ListItemIcon>
-                            <HomeOutlined style={{color: 'white'}}/>
+                            <HomeOutlined style={{ color: 'white' }} />
                         </ListItemIcon>
-                        <ListItemText primary="ระบบคลังสินค้า"/>
-                        {wareHouseOpen ? <ExpandLess/> : <ExpandMore/>}
+                        <ListItemText primary="ระบบคลังสินค้า" />
+                        {wareHouseOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={wareHouseOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <Link to="/all-warehouse" style={{textDecoration: 'none', color: 'inherit'}}>
-                                <ListItemButton sx={{pl: 4}}>
+                            <Link to="/all-warehouse" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
-                                        <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                        <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="การสั่งซื้อ"/>
+                                    <ListItemText primary="การสั่งซื้อ" />
                                 </ListItemButton>
                             </Link>
                         </List>
                         <List component="div" disablePadding>
-                            <Link to="/dashboard-warehouse" style={{textDecoration: 'none', color: 'inherit'}}>
-                                <ListItemButton sx={{pl: 4}}>
+                            <Link to="/dashboard-warehouse" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton sx={{ pl: 4 }}>
                                     <ListItemIcon>
-                                        <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                        <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                     </ListItemIcon>
-                                    <ListItemText primary="คลังของทั้งหมด"/>
+                                    <ListItemText primary="คลังของทั้งหมด" />
                                 </ListItemButton>
                             </Link>
                         </List>
                     </Collapse>
 
-                </Box>
+                </Box> */}
 
-                <Box sx={{backgroundColor: taskOpen ? "orange" : "initial", borderTopRightRadius: '40px'}}>
+                <Box sx={{ backgroundColor: taskOpen ? "orange" : "initial", borderTopRightRadius: '40px' }}>
                     <ListItemButton onClick={() => {
                         handleOpen("task")
                     }}>
                         <ListItemIcon>
-                            <PlaylistAdd style={{color: "white"}}/>
+                            <PlaylistAdd style={{ color: "white" }} />
                         </ListItemIcon>
-                        <ListItemText primary="ระบบสั่งงาน"/>
-                        {taskOpen ? <ExpandLess/> : <ExpandMore/>}
+                        <ListItemText primary="ระบบสั่งงาน" />
+                        {taskOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={taskOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton sx={{pl: 4}}>
+                            <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
-                                    <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>
+                                    <Circle sx={{ fontSize: 10 }} style={{ color: 'white' }} />
                                 </ListItemIcon>
-                                <Link to="/tasklist" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <ListItemText primary="รายการสั่งงาน"/>
+                                <Link to="/tasklist" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <ListItemText primary="รายการสั่งงาน" />
                                 </Link>
                             </ListItemButton>
                         </List>
