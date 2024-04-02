@@ -201,11 +201,11 @@ export function SideManu() {
                 {
                     menuList.length > 0 && menuList.map((item:any, index:number) => {
                         return (
-                            <Box sx={{backgroundColor: "initial", borderTopRightRadius: '40px'}} key={index}>
+                            <Box sx={{backgroundColor: nowOpenIndex === index + 1 ? "orange" : "initial", borderTopRightRadius: '40px'}} key={index}>
                                 {
                                     item.to !== undefined && item.to !== null ? <Link to={item.to} style={{textDecoration: 'none', color: 'inherit'}}>
                                         <ListItemButton onClick={() => {
-                                            handleOpen(index);
+                                            handleOpen(index + 1);
                                         }}>
                                             <ListItemIcon>
                                                 {
@@ -216,13 +216,13 @@ export function SideManu() {
                                             {
                                                 item.collapse !== undefined && item.collapse !== null && item.collapse.list !== undefined && item.collapse.list !== null && item.collapse.list.length > 0 && <>
                                                     {
-                                                        nowOpenIndex === index ? <ExpandLess /> : <ExpandMore />
+                                                        nowOpenIndex === (index + 1) ? <ExpandLess /> : <ExpandMore />
                                                     }
                                                 </>
                                             }
                                         </ListItemButton>
                                     </Link> : <ListItemButton onClick={() => {
-                                        handleOpen(index);
+                                        handleOpen(index + 1);
                                     }}>
                                         <ListItemIcon>
                                             {
@@ -233,7 +233,7 @@ export function SideManu() {
                                         {
                                             item.collapse !== undefined && item.collapse !== null && item.collapse.list !== undefined && item.collapse.list !== null && item.collapse.list.length > 0 && <>
                                                 {
-                                                    nowOpenIndex === index ? <ExpandLess /> : <ExpandMore />
+                                                    nowOpenIndex === (index + 1) ? <ExpandLess /> : <ExpandMore />
                                                 }
                                             </>
                                         }
@@ -241,7 +241,7 @@ export function SideManu() {
                                 }
                                 {
                                     item.collapse !== undefined && item.collapse !== null && item.collapse.list !== undefined && item.collapse.list !== null && item.collapse.list.length > 0 ? <>
-                                        <Collapse in={nowOpenIndex === index} timeout="auto" unmountOnExit>
+                                        <Collapse in={nowOpenIndex === (index + 1)} timeout="auto" unmountOnExit>
                                             <List component="div" disablePadding>
                                                 {
                                                     item.collapse.list.map((collapseItem:any, coolapseItemIndex:number) => {
