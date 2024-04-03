@@ -17,7 +17,7 @@ import {Link} from "react-router-dom";
 import Box from "@mui/material/Box";
 import GroupIcon from '@mui/icons-material/Group';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
-
+import WorkIcon from '@mui/icons-material/Work';
 export const AppObject = {
     ParcelUrl: "/Create-parcel"
 };
@@ -61,8 +61,14 @@ export function SideManu() {
             }
         },
         {
+            label: "JOB",
+            icon: <WorkIcon style={{color: 'white'}}/>,
+            to:"/job"
+        },
+        {
             label: "รายการพัสดุ",
-            icon: <RecentActors style={{color: 'white'}}/>
+            icon: <RecentActors style={{color: 'white'}}/>,
+            to:"/create-parcel"
         },
         {
             label: "ระบบบุคคล",

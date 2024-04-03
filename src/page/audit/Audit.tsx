@@ -59,7 +59,7 @@ function Audit({ }: Props) {
 
                                     ))
                                 }
-                                <Button variant="contained">testt</Button>
+                                <Button variant="contained">เพิ่มบริษัท</Button>
                             </Tabs>
                         </Box>
                         {

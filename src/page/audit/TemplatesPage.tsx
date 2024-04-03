@@ -1,10 +1,9 @@
 import React from 'react'
-import { Box, Button, ButtonGroup, Checkbox, FormControl, Grid, MenuItem, OutlinedInput, Select, SelectChangeEvent, Table, TableBody, TableCell, TableFooter, TableHead, TableRow, Typography, styled } from '@mui/material'
+import { Button, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography, styled } from '@mui/material'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import SearchIcon from '@mui/icons-material/Search';
 type Props = {
     DataAPI: { month: string; typeaudit: string; sales: string; count: string; }[];
 }
@@ -67,7 +66,6 @@ const PrintButton = styled(Button)(({ theme }) => ({
 
 }));
 function TemplatesPage({ DataAPI }: Props) {
-    const [entrie, setEntrie] = React.useState("50");
     return (
         <Grid container gap={4}>
             <Text20px>สรุปยอดขาย</Text20px>
