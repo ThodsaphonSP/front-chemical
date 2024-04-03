@@ -12,7 +12,7 @@ import {
 } from "@mui/icons-material";
 import FactoryIcon from '@mui/icons-material/Factory';
 import pageData from "../type/PageData.json"
-
+import StoreIcon from '@mui/icons-material/Store';
 import {Link} from "react-router-dom";
 import Box from "@mui/material/Box";
 import GroupIcon from '@mui/icons-material/Group';
@@ -143,23 +143,28 @@ export function SideManu() {
                 ]
             }
         },
+        // {
+        //     label: "ระบบคลังสินค้า",
+        //     icon: <HomeOutlined style={{color: 'white'}}/>,
+        //     collapse: {
+        //         list: [
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "การสั่งซื้อ",
+        //                 to: '/all-warehouse'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "คลังของทั้งหมด",
+        //                 to: '/dashboard-warehouse'
+        //             }
+        //         ]
+        //     }
+        // },
         {
             label: "ระบบคลังสินค้า",
-            icon: <HomeOutlined style={{color: 'white'}}/>,
-            collapse: {
-                list: [
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "การสั่งซื้อ",
-                        to: '/all-warehouse'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "คลังของทั้งหมด",
-                        to: '/dashboard-warehouse'
-                    }
-                ]
-            }
+            icon: <StoreIcon style={{color: 'white'}}/>,
+            to: 'warehouse'
         },
         {
             label: "ระบบสั่งงาน",
