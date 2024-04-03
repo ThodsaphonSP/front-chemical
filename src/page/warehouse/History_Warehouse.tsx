@@ -226,6 +226,8 @@ function History_Warehouse({ }: Props) {
                     </TableFooter>
                 </Table>
             </Grid>
+            {/* ------------------------------ Table   ------------------------------ */}
+
         </Grid>
     )
 }

@@ -9,7 +9,7 @@ import { CustomTabPanel } from '../Parcel/CreateParcelList';
 import { useDispatch } from 'react-redux';
 import { setTitle } from '../../features/Nav/NavSlice';
 import pageData from "../../type/PageData.json";
-import { Label } from '@mui/icons-material';
+import TemplatesPage from './TemplatesPage';
 type Props = {}
 
 function Audit({ }: Props) {
@@ -28,14 +28,23 @@ function Audit({ }: Props) {
 
     const TabsPage = [
         {
-            Label: "P&W"
+            NameCompany: "P&W"
         },
         {
-            Label: "S2P"
+            NameCompany: "S2P"
         },
         {
-            Label: "Aceepta"
+            NameCompany: "Aceepta"
         },
+    ]
+
+    const DataAPI = [
+        {
+            month: "Lorem",
+            typeaudit: "Lorem",
+            sales: "2,000",
+            count: "1"
+        }
     ]
     return (
         <Grid>
@@ -46,7 +55,7 @@ function Audit({ }: Props) {
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                                 {
                                     TabsPage.map((page, index) => (
-                                        <Tab label={page.Label} />
+                                        <Tab label={page.NameCompany} />
 
                                     ))
                                 }
@@ -56,6 +65,7 @@ function Audit({ }: Props) {
                         {
                             TabsPage.map((page, index) => (
                                 <CustomTabPanel value={value} index={index}>
+                                    <TemplatesPage DataAPI={DataAPI} />
                                 </CustomTabPanel >
                             ))
                         }
