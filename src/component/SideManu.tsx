@@ -16,7 +16,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import {Link} from "react-router-dom";
 import Box from "@mui/material/Box";
 import GroupIcon from '@mui/icons-material/Group';
-
+import RequestPageIcon from '@mui/icons-material/RequestPage';
 
 export const AppObject = {
     ParcelUrl: "/Create-parcel"
@@ -164,7 +164,12 @@ export function SideManu() {
         {
             label: "ระบบคลังสินค้า",
             icon: <StoreIcon style={{color: 'white'}}/>,
-            to: 'warehouse'
+            to: '/warehouse'
+        },
+        {
+            label: "ระบบบัญชี",
+            icon: <RequestPageIcon style={{color: 'white'}}/>,
+            to: '/audit'
         },
         {
             label: "ระบบสั่งงาน",

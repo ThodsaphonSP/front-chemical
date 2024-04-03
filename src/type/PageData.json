@@ -1,27 +1,50 @@
 {
   "admin": {
     "pageUrl": "/admin",
-    "allowRole": ["",""],
+    "allowRole": [
+      "",
+      ""
+    ],
     "pageTitle": "บัญชีผู้ใช้งาน Admin"
   },
   "adminEdit": {
     "pageUrl": "/admin/:id",
-    "allowRole": ["",""],
+    "allowRole": [
+      "",
+      ""
+    ],
     "pageTitle": "เพิ่ม-แก้ไขบัญชีผู้ใช้งาน"
   },
   "Create-Parcel": {
     "pageUrl": "/create-parcel",
-    "allowRole": ["",""],
+    "allowRole": [
+      "",
+      ""
+    ],
     "pageTitle": "รายการพัสดุ"
   },
   "Create-Product": {
     "pageUrl": "/create-product",
-    "allowRole": ["",""],
+    "allowRole": [
+      "",
+      ""
+    ],
     "pageTitle": "สร้างสินค้า"
   },
   "warehouse": {
     "pageUrl": "/warehouse",
-    "allowRole": ["",""],
+    "allowRole": [
+      "",
+      ""
+    ],
     "pageTitle": "คลังสินค้า"
+  },
+  "audit": {
+    "pageUrl": "/audit",
+    "allowRole": [
+      "",
+      ""
+    ],
+    "pageTitle": "ระบบบัญชี"
   }
 }
