@@ -40,25 +40,26 @@ export function SideManu() {
         {
             label: "ระบบแอดมิน",
             icon: <GroupIcon style={{color: 'white'}}/>,
-            collapse: {
-                list: [
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "บัญชีผู้ใช้งาน",
-                        to: '/admin'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "จัดการสิทธิ์",
-                        to: '/Authority'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "จัดการผู้ใช้",
-                        to: '/User'
-                    }
-                ]
-            }
+            to: '/admin'
+            // collapse: {
+            //     list: [
+            //         {
+            //             icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+            //             label: "บัญชีผู้ใช้งาน",
+            //             to: '/admin'
+            //         },
+                    // {
+                    //     icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+                    //     label: "จัดการสิทธิ์",
+                    //     to: '/Authority'
+                    // },
+                    // {
+                    //     icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+                    //     label: "จัดการผู้ใช้",
+                    //     to: '/User'
+                    // }
+            //     ]
+            // }
         },
         {
             label: "JOB",
@@ -70,85 +71,87 @@ export function SideManu() {
             icon: <RecentActors style={{color: 'white'}}/>,
             to:"/create-parcel"
         },
-        {
-            label: "ระบบบุคคล",
-            icon: <Person style={{color: 'white'}}/>,
-            collapse: {
-                list: [
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "บริษัท เลเจนด์ อ๊อฟ โปรดักส์ จำกัด",
-                        to: '/Person'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "บริษัท อินคอสแม็ก จำกัด",
-                        to: '/hr-cosmic'
-                    }
-                ]
-            }
-        },
-        {
-            label: "ระบบสร้างสินค้า",
-            icon: <FactoryIcon style={{color: "white"}}/>,
-            collapse: {
-                list: [
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "สร้าง Product",
-                        to: '/admin'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "Cosmetic",
-                        to: '/cosmetic'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "Food-Drink",
-                        to: '/food'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "Raw Material",
-                        to: '/create-raw-material'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "Pet Shop",
-                        to: '/pet-shop'
-                    }
-                ]
-            }
-        },
-        {
-            label: "ระบบผลิต",
-            icon: <Inventory2Outlined style={{color: 'white'}}/>,
-            collapse: {
-                list: [
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "การสั่งซื้อ",
-                        to: '/all-manufacture'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "สารวัตถุดิบ",
-                        to: '/all-rawmaterial'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "สูตรสินค้า",
-                        to: '/all-productformula'
-                    },
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "Test & Dev",
-                        to: '/all-testanddev'
-                    }
-                ]
-            }
-        },
+        // {
+        //     label: "ระบบบุคคล",
+        //     icon: <Person style={{color: 'white'}}/>,
+        //     collapse: {
+        //         list: [
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "บริษัท เลเจนด์ อ๊อฟ โปรดักส์ จำกัด",
+        //                 to: '/Person'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "บริษัท อินคอสแม็ก จำกัด",
+        //                 to: '/hr-cosmic'
+        //             }
+        //         ]
+        //     }
+        // },
+        // {
+        //     label: "ระบบสร้างสินค้า",
+        //     icon: <FactoryIcon style={{color: "white"}}/>,
+        //     to: '/create-parcel'
+
+        //     collapse: {
+        //         list: [
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "สร้าง Product",
+        //                 to: '/create-parcel'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "Cosmetic",
+        //                 to: '/cosmetic'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "Food-Drink",
+        //                 to: '/food'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "Raw Material",
+        //                 to: '/create-raw-material'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "Pet Shop",
+        //                 to: '/pet-shop'
+        //             }
+        //         ]
+        //     }
+        // },
+        // {
+        //     label: "ระบบผลิต",
+        //     icon: <Inventory2Outlined style={{color: 'white'}}/>,
+        //     collapse: {
+        //         list: [
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "การสั่งซื้อ",
+        //                 to: '/all-manufacture'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "สารวัตถุดิบ",
+        //                 to: '/all-rawmaterial'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "สูตรสินค้า",
+        //                 to: '/all-productformula'
+        //             },
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "Test & Dev",
+        //                 to: '/all-testanddev'
+        //             }
+        //         ]
+        //     }
+        // },
         // {
         //     label: "ระบบคลังสินค้า",
         //     icon: <HomeOutlined style={{color: 'white'}}/>,
@@ -177,19 +180,19 @@ export function SideManu() {
             icon: <RequestPageIcon style={{color: 'white'}}/>,
             to: '/audit'
         },
-        {
-            label: "ระบบสั่งงาน",
-            icon: <PlaylistAdd style={{color: "white"}}/>,
-            collapse: {
-                list: [
-                    {
-                        icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
-                        label: "รายการสั่งงาน",
-                        to: '/tasklist'
-                    }
-                ]
-            }
-        }
+        // {
+        //     label: "ระบบสั่งงาน",
+        //     icon: <PlaylistAdd style={{color: "white"}}/>,
+        //     collapse: {
+        //         list: [
+        //             {
+        //                 icon: <Circle sx={{fontSize: 10}} style={{color: 'white'}}/>,
+        //                 label: "รายการสั่งงาน",
+        //                 to: '/tasklist'
+        //             }
+        //         ]
+        //     }
+        // }
     ]
 
     const styles = {
