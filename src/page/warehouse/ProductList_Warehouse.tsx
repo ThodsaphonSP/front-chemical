@@ -1,6 +1,10 @@
 import { Box, Button, ButtonGroup, Checkbox, FormControl, Grid, MenuItem, OutlinedInput, Select, SelectChangeEvent, Table, TableBody, TableCell, TableFooter, TableHead, TableRow, Typography, styled } from '@mui/material'
 import React from 'react'
 import ArticleIcon from '@mui/icons-material/Article';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 type Props = {}
 const Text14px = styled(Typography)(({ theme }) => ({
     fontSize: "14px"
@@ -87,7 +91,7 @@ const DetailButton = styled(Button)(({ theme }) => ({
         backgroundColor: '#00BCF7',
     },
     width: "auto",
-    borderRadius:"20px"
+    borderRadius: "20px"
 
 }));
 const TableCellCustomHead = styled(TableCell)(({ theme }) => ({
@@ -142,11 +146,11 @@ function ProductList_Warehouse({ }: Props) {
                 </ItemInput>
                 <ItemInput>
                     <Text14px>วันที่เอกสาร</Text14px>
-                    <InputFormControl size={"small"} variant="outlined">
-                        <OutlinedInput
-                            type={"text"}
-                        />
-                    </InputFormControl>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer sx={{padding:"0","& input":{padding:"8.5px 13.5px"}}} components={['DatePicker']}>
+                            <DatePicker sx={{padding:"0"}} />
+                        </DemoContainer>
+                    </LocalizationProvider>
                 </ItemInput>
                 <ItemInput>
                     <Text14px>ประเภท</Text14px>

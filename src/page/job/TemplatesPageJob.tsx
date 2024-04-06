@@ -4,7 +4,6 @@ import ArticleIcon from '@mui/icons-material/Article';
 
 type Props = {
     DataAPI: { nameproduct: string; price: string; totalprice: string; count: string; }[];
-
 }
 const Text20px = styled(Typography)(({ theme }) => ({
     fontSize: "20px"

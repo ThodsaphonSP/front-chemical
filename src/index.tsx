@@ -17,6 +17,7 @@ import { ProductDetail } from "./page/Product/ProductDetail";
 import Warehouse from './page/warehouse/Warehouse';
 import Audit from './page/audit/Audit';
 import Job from './page/job/Job';
+import DocumentSales from './page/documentsales/DocumentSales';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -49,6 +50,8 @@ const router = createBrowserRouter([
             { path: pageData["warehouse"].pageUrl, element: <><Warehouse /></> },
             { path: pageData["audit"].pageUrl, element: <><Audit /></> },
             { path: pageData["job"].pageUrl, element: <><Job /></> },
+            { path: pageData["documentsales"].pageUrl, element: <><DocumentSales /></> },
+
 
 
             // ... other child routes

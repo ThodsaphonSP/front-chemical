@@ -54,5 +54,13 @@
       ""
     ],
     "pageTitle": "JOB"
+  },
+  "documentsales": {
+    "pageUrl": "/documentsales",
+    "allowRole": [
+      "",
+      ""
+    ],
+    "pageTitle": "เอกสารขาย"
   }
 }
