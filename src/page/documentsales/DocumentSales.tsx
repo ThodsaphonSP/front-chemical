@@ -12,6 +12,8 @@ import pageData from "../../type/PageData.json";
 import Receipt from './Receipt';
 import BillingSlip from './BillingSlip';
 import OutstandingDebtors from './OutstandingDebtors';
+import ReceiveCheck from './ReceiveCheck';
+import TaxInvoice from './TaxInvoice';
 type Props = {}
 
 function DocumentSales({ }: Props) {
@@ -50,7 +52,10 @@ function DocumentSales({ }: Props) {
                             <OutstandingDebtors />
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={3}>
-
+                            <ReceiveCheck />
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={4}>
+                            <TaxInvoice/>
                         </CustomTabPanel>
                     </Grid>
                 </Grid>
