@@ -62,5 +62,13 @@
       ""
     ],
     "pageTitle": "เอกสารขาย"
+  },
+  "sale": {
+    "pageUrl": "/sale",
+    "allowRole": [
+      "",
+      ""
+    ],
+    "pageTitle": "Sale"
   }
 }

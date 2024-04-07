@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Drawer, List, ListItemIcon, ListItemText, ListItemButton, Collapse } from '@mui/material';
 import {
-    Circle,
     ExpandMore,
     ExpandLess,
-    HomeOutlined,
-    Inventory2Outlined,
     RecentActors,
-    Person,
-    PlaylistAdd, Home
+    Home
 } from "@mui/icons-material";
-import FactoryIcon from '@mui/icons-material/Factory';
-import pageData from "../type/PageData.json"
 import StoreIcon from '@mui/icons-material/Store';
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -19,6 +13,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import RequestPageIcon from '@mui/icons-material/RequestPage';
 import WorkIcon from '@mui/icons-material/Work';
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 export const AppObject = {
     ParcelUrl: "/Create-parcel"
 };
@@ -37,6 +32,11 @@ export function SideManu() {
             label: "หน้าแรก",
             icon: <Home style={{ color: "white" }} />,
             to: '/',
+        },
+        {
+            label: "Sale",
+            icon: <LeaderboardIcon style={{ color: "white" }} />,
+            to: '/sale',
         },
         {
             label: "เอกสารขาย",
