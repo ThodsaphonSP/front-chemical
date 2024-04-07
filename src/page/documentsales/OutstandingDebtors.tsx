@@ -48,7 +48,7 @@ const ButtonCustom = styled(Button)(() => ({
 
 }));
 
-function BillingSlip({ }: Props) {
+function OutstandingDebtors({}: Props) {
     const [statusBill, setStatusBill] = React.useState("ส่งไม่เรียบร้อย");
     
     const handleChangeStatusBill = (event: SelectChangeEvent) => {
@@ -57,7 +57,6 @@ function BillingSlip({ }: Props) {
     return (
         <Grid container gap={"24px"}>
             {/* ------------------------------ Button   ------------------------------ */}
-
             <Grid container justifyContent={"flex-end"} columnGap={"12px"}>
                 <ButtonCustom variant="contained">
                     แสดงทั้งหมด
@@ -69,7 +68,6 @@ function BillingSlip({ }: Props) {
                     ใบวางบิลรวม
                 </ButtonCustom>
             </Grid>
-
             {/* ------------------------------ Button   ------------------------------ */}
 
             {/* ------------------------------ Table   ------------------------------ */}
@@ -77,7 +75,7 @@ function BillingSlip({ }: Props) {
                 <Table sx={{ minWidth: 800, width: "100%" }} aria-label="customized table">
                     <TableHead sx={{ backgroundColor: "#4B4B4B" }}>
                         <TableRow>
-                            <TableCellCustomHead>วันที่ทำรายการ</TableCellCustomHead>
+                            <TableCellCustomHead>วันที่</TableCellCustomHead>
                             <TableCellCustomHead>เลขที่เอกสาร</TableCellCustomHead>
                             <TableCellCustomHead>ชื่อลูกค้า</TableCellCustomHead>
                             <TableCellCustomHead>วันครบกำหนด</TableCellCustomHead>
@@ -135,4 +133,4 @@ function BillingSlip({ }: Props) {
     )
 }
 
-export default BillingSlip
+export default OutstandingDebtors

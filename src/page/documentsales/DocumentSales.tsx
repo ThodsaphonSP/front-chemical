@@ -11,6 +11,7 @@ import { setTitle } from '../../features/Nav/NavSlice';
 import pageData from "../../type/PageData.json";
 import Receipt from './Receipt';
 import BillingSlip from './BillingSlip';
+import OutstandingDebtors from './OutstandingDebtors';
 type Props = {}
 
 function DocumentSales({ }: Props) {
@@ -20,7 +21,6 @@ function DocumentSales({ }: Props) {
     useEffect(() => {
         dispatch(setTitle(pageData["audit"].pageTitle));
         document.title = pageData["audit"].pageTitle;
-        // eslint-disable-next-line
     }, [dispatch]);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -47,7 +47,7 @@ function DocumentSales({ }: Props) {
                             <BillingSlip />
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
-
+                            <OutstandingDebtors />
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={3}>
 
