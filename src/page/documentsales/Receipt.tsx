@@ -8,21 +8,6 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import ArticleIcon from '@mui/icons-material/Article';
 
 type Props = {}
-const Text14px = styled(Typography)(({ theme }) => ({
-    fontSize: "14px"
-}));
-const Entries = styled(Grid)(({ theme }) => ({
-    // [theme.breakpoints.up("xs")]: {
-    //     width: "80%"
-    // },
-    // [theme.breakpoints.up("sm")]: {
-    //     width: "45%"
-    // },
-    // [theme.breakpoints.up("md")]: {
-    //     width: "17%"
-    // },
-    justifyContent: "space-between"
-}));
 const TableCellCustomHead = styled(TableCell)(({ theme }) => ({
     textAlign: "center",
     color: "white",
@@ -56,7 +41,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-const DetailButton = styled(Button)(({ theme }) => ({
+const DetailButton = styled(Button)(() => ({
     backgroundColor: '#00BCF7',
     WebkitTapHighlightColor: '#00BCF7',
     '&:hover': {
