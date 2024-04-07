@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setTitle } from '../../features/Nav/NavSlice';
 import pageData from "../../type/PageData.json";
 import S_Group from './S_Group';
+import J_Group from './J_Group';
 
 type Props = {}
 
@@ -42,6 +43,7 @@ function Sale({ }: Props) {
                             <S_Group/>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
+                            <J_Group/>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={2}>
                         </CustomTabPanel>

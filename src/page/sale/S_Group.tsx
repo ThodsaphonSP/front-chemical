@@ -100,7 +100,7 @@ function S_Group({ }: Props) {
                         </InputFormControl>
                     </Grid>
                     <Grid container sx={{ width: "150px", alignItems: "end" }}>
-                        <Buttonsearch variant="contained">ค้นหา</Buttonsearch>
+                        <Buttonsearch variant="contained">คำนวณ</Buttonsearch>
                     </Grid>
                 </Grid>
                 <Text14px>
@@ -114,8 +114,8 @@ function S_Group({ }: Props) {
                 </Text14px>
             </Grid>
             {/* ------------------------------ คำนวณค่าคอมมิชชั่น  ------------------------------ */}
-{/* ------------------------------ Table   ------------------------------ */}
-<Grid sx={{ overflow: "auto", width: "100%" }}>
+            {/* ------------------------------ Table   ------------------------------ */}
+            <Grid sx={{ overflow: "auto", width: "100%" }}>
                 <Table sx={{ minWidth: 700, width: "100%" }} aria-label="customized table">
                     <TableHead sx={{ backgroundColor: "#4B4B4B" }}>
                         <TableRow>
