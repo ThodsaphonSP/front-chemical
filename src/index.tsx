@@ -14,11 +14,12 @@ import { AdminEditPage } from "./page/admin/AdminEditPage";
 
 import { CreateParcelList } from "./page/Parcel/CreateParcelList";
 import { ProductDetail } from "./page/Product/ProductDetail";
-import Warehouse from './page/warehouse/Warehouse';
+
 import Audit from './page/audit/Audit';
 import Job from './page/job/Job';
 import DocumentSales from './page/documentsales/DocumentSales';
 import Sale from './page/sale/Sale';
+import Warehouse from "./page/WarehouseFolder/Warehouse";
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);

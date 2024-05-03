@@ -9,8 +9,11 @@ import { CustomTabPanel } from '../Parcel/CreateParcelList';
 import { useDispatch } from 'react-redux';
 import { setTitle } from '../../features/Nav/NavSlice';
 import pageData from "../../type/PageData.json";
-import ProductList_Warehouse from './ProductList_Warehouse';
-import History_Warehouse from './History_Warehouse';
+import {ProductList_Warehouse} from "./ProductList_Warehouse";
+import {History_Warehouse} from "./History_Warehouse";
+
+
+
 
 type Props = {}
 

@@ -127,7 +127,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-function ProductList_Warehouse({ }: Props) {
+export function ProductList_Warehouse({ }: Props) {
     const [entrie, setEntrie] = React.useState("50");
     const handleChange = (event: SelectChangeEvent) => {
         setEntrie(event.target.value as string);
@@ -301,4 +301,3 @@ function ProductList_Warehouse({ }: Props) {
     )
 }
 
-export default ProductList_Warehouse

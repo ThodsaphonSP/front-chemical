@@ -65,7 +65,7 @@ const DetailButton = styled(Button)(({ theme }) => ({
     borderRadius: "20px"
 
 }));
-function History_Warehouse({ }: Props) {
+ export function History_Warehouse({ }: Props) {
     const [typeProduct, setTypeProduct] = React.useState('สินค้าทั้งหมด');
     const [entrie, setEntrie] = React.useState("50");
     const [statusProd, setStatusProd] = React.useState("ส่งไม่เรียบร้อย");
@@ -232,4 +232,3 @@ function History_Warehouse({ }: Props) {
     )
 }
 
-export default History_Warehouse
